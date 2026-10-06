@@ -1,0 +1,10 @@
+From: Example Debt Management Center <dmc@va.example.com>
+To: Veteran <veteran@mailbox.example.com>
+Subject: Overpayment balance due
+Date: Tue, 06 Jan 2026 15:04:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+A review of the example compensation file found an overpayment.
+The debt balance of $180.00 is due by March 2, 2026.
+Action required: please pay or request a waiver.

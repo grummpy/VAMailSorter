@@ -1,0 +1,21 @@
+From veteran@mailbox.example.com Tue Jan 06 16:00:00 2026
+From: Example VA Clinic <appointments@va.example.com>
+To: Veteran <veteran@mailbox.example.com>
+Subject: Please confirm your appointment
+Date: Tue, 06 Jan 2026 16:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Please confirm your appointment on March 11, 2026 or reschedule.
+Action required if you cannot attend the example clinic.
+
+From veteran@mailbox.example.com Wed Jan 07 16:00:00 2026
+From: Example myPay <statements@dfas.example.com>
+To: Veteran <veteran@mailbox.example.com>
+Subject: Example 1099-R is now available
+Date: Wed, 07 Jan 2026 16:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Your example 1099-R is now available in the statements tab.
+No action is required. This note is for your information.

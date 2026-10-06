@@ -1,0 +1,11 @@
+model,f2_mean,f2_std,precision_mean,precision_std,recall_mean,recall_std
+keyword_rules,0.9676264912415921,0.014235970409240488,0.8593593073593073,0.0529748054862313,1.0,0.0
+tfidf_logreg_C0.25,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_logreg_C1.0,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_logreg_C4.0,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_linear_svc_C0.5,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_linear_svc_C1.0,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_linear_svc_C4.0,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_multinomial_nb_alpha0.1,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_multinomial_nb_alpha0.5,1.0,0.0,1.0,0.0,1.0,0.0
+tfidf_multinomial_nb_alpha1.0,1.0,0.0,1.0,0.0,1.0,0.0

@@ -1,0 +1,59 @@
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+from vams.data import as_text, load_emails, require_split
+from vams.metrics import select_threshold
+from vams.models import train
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(scope="module")
+def frame():
+    return load_emails(ROOT / "data" / "synthetic" / "emails.csv")
+
+
+def test_perfect_validation_tie_breaks_toward_one_half():
+    y = np.array([1, 1, 0, 0])
+    p = np.array([0.99, 0.98, 0.02, 0.01])
+    choice = select_threshold(y, p, min_precision=0.70)
+    assert choice.threshold == 0.50
+    assert choice.recall == 1.0
+    assert choice.precision == 1.0
+
+
+def test_threshold_maximizes_recall_at_precision_floor():
+    y = np.array([1, 1, 1, 1, 0, 0, 0, 1, 1, 0])
+    p = np.array([0.90, 0.80, 0.75, 0.72, 0.71, 0.70, 0.40, 0.35, 0.33, 0.10])
+    choice = select_threshold(y, p, min_precision=0.70)
+    assert choice.policy == "max_recall_at_precision_0.70"
+    assert choice.threshold == 0.72
+    assert choice.precision >= 0.70
+
+
+def test_training_is_deterministic(frame, trained_bundle):
+    again = train(require_split(frame, "train"), require_split(frame, "val"), seed=42)
+    bundle = trained_bundle
+    probe = as_text(require_split(frame, "train").head(8))
+    np.testing.assert_allclose(
+        bundle.predict_action_proba(probe),
+        again.predict_action_proba(probe),
+        rtol=0,
+        atol=0,
+    )
+    np.testing.assert_array_equal(
+        bundle.explain_estimator.named_steps["clf"].coef_,
+        again.explain_estimator.named_steps["clf"].coef_,
+    )
+    assert bundle.threshold == again.threshold
+    assert bundle.seed == 42
+    assert bundle.threshold_selected_on == "validation"
+    assert bundle.fitted_on == "train"
+
+
+def test_train_refuses_to_mix_in_test_rows(frame):
+    mixed = frame.loc[frame["split"].isin(["train", "test"])]
+    with pytest.raises(ValueError, match="train split"):
+        train(mixed, require_split(frame, "val"), seed=42)
