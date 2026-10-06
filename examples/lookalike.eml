@@ -1,0 +1,9 @@
+From: Benefits Security <security@va-notice.example.com>
+To: Veteran <veteran@mailbox.example.com>
+Subject: Example look-alike
+Date: Thu, 15 Jan 2026 15:04:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+Verify your identity with your password at http://benefits.login.example.com/account.
+The message says the account will be deleted. This sample is a synthetic phish.

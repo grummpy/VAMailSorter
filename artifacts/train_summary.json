@@ -1,0 +1,107 @@
+{
+  "seed": 42,
+  "best_C": 0.25,
+  "best_svm_C": 0.5,
+  "best_nb_alpha": 0.1,
+  "threshold": 0.5,
+  "threshold_policy": "max_recall_at_precision_0.70",
+  "threshold_selected_on": "validation",
+  "validation_precision_action": 1.0,
+  "validation_recall_action": 1.0,
+  "validation_f2_action": 1.0,
+  "suspicious_threshold": 1.5,
+  "suspicious_policy": "max_f1_then_recall",
+  "cv": [
+    {
+      "model": "keyword_rules",
+      "f2_mean": 0.9676264912415921,
+      "f2_std": 0.014235970409240488,
+      "precision_mean": 0.8593593073593073,
+      "precision_std": 0.0529748054862313,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_logreg_C0.25",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_logreg_C1.0",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_logreg_C4.0",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_linear_svc_C0.5",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_linear_svc_C1.0",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_linear_svc_C4.0",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_multinomial_nb_alpha0.1",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_multinomial_nb_alpha0.5",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    },
+    {
+      "model": "tfidf_multinomial_nb_alpha1.0",
+      "f2_mean": 1.0,
+      "f2_std": 0.0,
+      "precision_mean": 1.0,
+      "precision_std": 0.0,
+      "recall_mean": 1.0,
+      "recall_std": 0.0
+    }
+  ],
+  "model": "artifacts/model.joblib"
+}

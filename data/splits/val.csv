@@ -1,0 +1,428 @@
+id,split,source,notice_type,hard_case,label,suspicious,from_addr,to_addr,date,subject,body
+vams-0002,val,VA,benefit_decision,none,ACTION_NEEDED,0,Example VA Regional Office <decisions@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-01-07,"Decision on your compensation claim, with a review deadline","The Example Regional Office finished a decision on the compensation claim in your demonstration file. The rating narrative and the monthly amount are both in the following paragraphs, and a clock is already running if you disagree.
+
+Monthly compensation is awarded at $820.00. The effective date used is November 3, 2025, which is later than the date the claim was received, and that gap is the point a review would focus on.
+
+The response window closes on June 12, 2026. Action needed: tell the Example Regional Office whether you accept the decision or you want it reviewed. A phone call alone does not preserve the deadline.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0003,val,VA,benefit_decision,none,ACTION_NEEDED,0,Example VA Regional Office <decisions@va.example.com>,Household <household@mailbox.example.com>,2026-01-08,"Decision on your compensation claim, with a review deadline","The Example Regional Office finished a decision on the compensation claim in your demonstration file. The rating narrative and the monthly amount are both in the following paragraphs, and a clock is already running if you disagree.
+
+A partial grant sets compensation at $540.00 a month. The denied portion turns on a medical opinion already in the file; no new exam was ordered before the decision was signed.
+
+You must submit any request for another review no later than May 7, 2026. Appeal rights are printed so they are not missed. Missing the date means the denied portion will not be reopened on this same record.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0009,val,VA,benefit_decision,none,ACTION_NEEDED,0,Example VA Regional Office <decisions@va.example.com>,Household <household@mailbox.example.com>,2026-01-14,Your award letter includes a date to challenge the rating,"This letter records a new decision on service-connected compensation for the fictional veteran file used in this demo. The outcome is favorable in part, and the portion you may still challenge is described below.
+
+The decision grants a combined rating and sets the monthly compensation at $1,240.00 beginning February 1, 2026. One claimed condition was denied because the file, as it stands, does not connect that condition to service.
+
+You must submit any request for another review no later than May 7, 2026. Appeal rights are printed so they are not missed. Missing the date means the denied portion will not be reopened on this same record.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0019,val,VA,benefit_decision,none,INFORMATIONAL,0,Example VA Regional Office <awards@va.example.com>,Household <household@mailbox.example.com>,2026-01-24,Confirmation that your compensation award continues,"This note confirms a decision that is already in effect on the fictional compensation file. Nothing in it asks you to mail a form or to call before a date.
+
+The updated monthly amount is $675.25 after the annual adjustment. You will see the new figure on the next regular deposit. No form was enclosed.
+
+This is informational. You do not have to call, visit, or send evidence because of this message. The next deposit should appear on the usual day.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0025,val,VA,benefit_decision,none,INFORMATIONAL,0,Example VA Regional Office <awards@va.example.com>,Household <household@mailbox.example.com>,2026-01-30,Your monthly award is unchanged this quarter,"A cost-of-living adjustment was applied to the demonstration award. The letter is for your information and does not open a new claim.
+
+Monthly compensation remains $1,050.00. The payment date, the direct-deposit destination already on file, and the combined rating are unchanged from last month.
+
+This is informational. You do not have to call, visit, or send evidence because of this message. The next deposit should appear on the usual day.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0028,val,VA,benefit_decision,none,INFORMATIONAL,0,Example VA Regional Office <awards@va.example.com>,Household <household@mailbox.example.com>,2026-02-02,Your monthly award is unchanged this quarter,"A cost-of-living adjustment was applied to the demonstration award. The letter is for your information and does not open a new claim.
+
+Dependent status on the file was confirmed from documents you sent last year. The decision does not add or remove anyone, and the rate stays at $412.80 a month.
+
+Keep this page for your files. No action required to continue compensation. We will write again only if the award itself changes.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0029,val,VA,benefit_decision,none,INFORMATIONAL,0,Example VA Regional Office <awards@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-02-03,"Award letter for your records, nothing to send back","We wrote to summarize a decision that granted the pending issue in full. The file is current, and this copy is the one to keep with your papers.
+
+Monthly compensation remains $1,050.00. The payment date, the direct-deposit destination already on file, and the combined rating are unchanged from last month.
+
+Please file this confirmation with your records. No response needed. If a future decision limits the award, that later letter will explain any review period on its own.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0031,val,VA,benefit_decision,none,INFORMATIONAL,0,Example VA Regional Office <awards@va.example.com>,Household <household@mailbox.example.com>,2026-02-05,"Award letter for your records, nothing to send back","We wrote to summarize a decision that granted the pending issue in full. The file is current, and this copy is the one to keep with your papers.
+
+The updated monthly amount is $675.25 after the annual adjustment. You will see the new figure on the next regular deposit. No form was enclosed.
+
+Keep this page for your files. No action required to continue compensation. We will write again only if the award itself changes.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0034,val,VA,debt_overpayment,none,ACTION_NEEDED,0,Example Debt Management Center <dmc@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-02-08,"Overpayment on your compensation, balance due","The Example Debt Management Center completed a review of compensation paid on the demonstration file and found that too much was released.
+
+The debt amount is $860.40. It is the difference between the rate paid and the rate the later decision says applied. No interest figure is included in this demo letter.
+
+No later than June 4, 2026, tell us how the overpayment should be handled. Action needed before withholding starts. A phone message without the written choice does not stop the collection.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0058,val,VGLI,premium_due,none,ACTION_NEEDED,0,Example VGLI Servicing <billing@insurance.example.com>,Veteran <veteran@mailbox.example.com>,2026-03-04,Please pay the VGLI premium for this period,"A new premium period opened on the demonstration VGLI policy. The bill below is the amount that keeps the same coverage in force.
+
+Please pay $118.40. That figure is the current premium for the coverage tier on the demonstration policy. A prior credit of zero is applied.
+
+The premium should arrive by April 8, 2026. If you already mailed it, you can ignore a crossing in the mail. Otherwise this amount due still needs to be paid.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0063,val,VGLI,premium_due,none,ACTION_NEEDED,0,Example VGLI Servicing <billing@insurance.example.com>,Household <household@mailbox.example.com>,2026-03-09,Premium statement: amount due on the demonstration policy,"We bill the example policy once each period. This message is that bill, addressed to the fictional policyholder and not to a real person.
+
+The amount due this period is $64.25. It is higher than the last bill because the example policy moved into the next age band. Coverage itself is the same.
+
+Action needed: the premium is due by June 2, 2026. Partial payment does not complete this period. The example servicing office can explain a plan only if you contact them before the due date.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0069,val,VGLI,lapse_warning,none,ACTION_NEEDED,0,Example VGLI Servicing <retention@insurance.example.com>,Veteran <inbox@mailbox.example.com>,2026-03-15,Grace period is open on the example life policy,"This is a lapse warning, not a routine bill. The demonstration life policy is still in force only because the grace period has not finished.
+
+The unpaid premium is $86.40. The grace period that protects the example coverage ends on March 28, 2026. After that date a missed payment is not given extra days in this scenario.
+
+This lapse warning needs a payment or a clear instruction before the end date. Action needed. After the grace period, a new application would be required in this fictional program, and acceptance is not guaranteed.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0071,val,VGLI,lapse_warning,none,ACTION_NEEDED,0,Example VGLI Servicing <retention@insurance.example.com>,Veteran <veteran@mailbox.example.com>,2026-03-17,Grace period is open on the example life policy,"This is a lapse warning, not a routine bill. The demonstration life policy is still in force only because the grace period has not finished.
+
+The grace period closes May 22, 2026. The amount that restores the current period is $64.25. No separate reinstatement fee is invented for this demo.
+
+You must submit the premium before coverage will end on the date in this letter. Calling to promise a payment does not extend the grace period in this example.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0074,val,VGLI,lapse_warning,none,ACTION_NEEDED,0,Example VGLI Servicing <retention@insurance.example.com>,Veteran <veteran@mailbox.example.com>,2026-03-20,Lapse warning for your demonstration VGLI policy,"We did not post a premium for the latest period on the example VGLI policy. Without payment, the policy is scheduled to end.
+
+Coverage will end on April 19, 2026 if $118.40 is not posted. The warning is tied to one unpaid period, not to a change in health.
+
+You must submit the premium before coverage will end on the date in this letter. Calling to promise a payment does not extend the grace period in this example.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0080,val,VGLI,lapse_warning,none,ACTION_NEEDED,0,Example VGLI Servicing <retention@insurance.example.com>,Veteran <veteran@mailbox.example.com>,2026-03-26,Final notice before the example policy lapses,"The fictional policyholder is inside the last stretch of the grace period. We are writing so the end date is not a surprise.
+
+On June 15, 2026 the example policy lapses if $146.75 remains unpaid. A lapsed policy in this scenario does not pay a claim for a later date of death.
+
+Please pay now so the policy does not lapse. If the coverage should end, tell the example office explicitly; silence is treated as a missed premium, not as a cancellation request.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0096,val,VA,appointment_reminder,none,ACTION_NEEDED,0,Example VA Clinic <appointments@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-11,Reminder: confirm or reschedule the Example clinic visit,"Example North Clinic sent this note because a visit is approaching and the scheduling desk does not yet have a confirmation.
+
+The diabetes check is June 8, 2026 at 3:00 in the afternoon. Fasting is not requested. A nurse visit is included in the same slot.
+
+Action needed: confirm or change the visit no later than May 15, 2026. Transportation help for the example clinic has to be requested at the same time, not on the morning of the visit.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0104,val,VA,appointment_notice,none,INFORMATIONAL,0,Example VA Clinic <clinic-news@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-04-19,After-visit summary from your completed appointment,"This after-visit summary covers a demonstration appointment that has already happened. No further visit is being scheduled by this message.
+
+Visitor parking at the example garage now asks for the paper slip to be placed on the dash. The rule starts March 2, 2026 and applies whenever you happen to visit. No visit was added for you.
+
+No action is required by this hours notice. For your information only. If you already have a separate appointment letter, follow that letter rather than this bulletin.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0108,val,VA,appointment_notice,none,INFORMATIONAL,0,Example VA Clinic <clinic-news@va.example.com>,Household <household@mailbox.example.com>,2026-04-23,The lab booth location changed inside the example clinic,"A hallway project at Example Ridge Clinic changed where the lab booth sits. Your future visits, if you have any, are not being rescheduled here.
+
+Visitor parking at the example garage now asks for the paper slip to be placed on the dash. The rule starts March 2, 2026 and applies whenever you happen to visit. No visit was added for you.
+
+File the parking bulletin if you like. No response needed. It will not affect compensation, insurance, or any claim.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0109,val,VA,appointment_notice,none,INFORMATIONAL,0,Example VA Clinic <clinic-news@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-24,"Reminder of clinic parking rules, no visit is scheduled","The example clinic is sending a short bulletin about parking. It is not a reminder of a booked visit.
+
+On February 16, 2026 the clinic closes for a staff training day. Emergency care for the demo campus is directed to the usual after-hours nurse line. Routine desks reopen the next morning.
+
+No response is needed to file this after-visit summary. It does not ask you to book anything. Contact the clinic only if the completed-visit note disagrees with what you remember.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0110,val,VA,appointment_notice,none,INFORMATIONAL,0,Example VA Clinic <clinic-news@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-04-25,"Reminder of clinic parking rules, no visit is scheduled","The example clinic is sending a short bulletin about parking. It is not a reminder of a booked visit.
+
+At the completed visit the nurse recorded blood pressure and reviewed medicines already on the chart. No new prescription was started. The note is available in the example health record.
+
+No action is required by this hours notice. For your information only. If you already have a separate appointment letter, follow that letter rather than this bulletin.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0112,val,VA,appointment_notice,none,INFORMATIONAL,0,Example VA Clinic <clinic-news@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-27,"Reminder of clinic parking rules, no visit is scheduled","The example clinic is sending a short bulletin about parking. It is not a reminder of a booked visit.
+
+Visitor parking at the example garage now asks for the paper slip to be placed on the dash. The rule starts March 2, 2026 and applies whenever you happen to visit. No visit was added for you.
+
+This location note is informational. No action required. You do not have to confirm a slot, because no slot was booked by this message.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0123,val,VA,claim_evidence,none,ACTION_NEEDED,0,Example VA Regional Office <claims@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-05-08,Please send the employment dates the rater asked for,"A review of the example claim found a gap. We are asking for the missing piece now so the decision is not made on an incomplete file.
+
+We need the separation narrative you mentioned and do not yet see. A copy is fine. The claim can use a certified copy or a clear scan in the example upload portal.
+
+Submit the evidence by March 27, 2026. You must reply by then if you want it considered. After the date, the rater may decide on what is already here. Action required.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0138,val,VA,claim_status,none,INFORMATIONAL,0,Example VA Regional Office <status@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-05-23,Your claim moved to the rating queue,"The example claim changed queues. We send these notes so the wait is visible. Nothing is due from you because of this one.
+
+The claim is still processing. A medical exam was completed last week and the results are in the file. The next step is internal.
+
+For your information, waiting is the correct step. Do not send another copy of the same claim. A decision letter, when it exists, will say so in the subject.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0140,val,VA,claim_status,none,INFORMATIONAL,0,Example VA Regional Office <status@va.example.com>,Household <household@mailbox.example.com>,2026-05-25,Your claim moved to the rating queue,"The example claim changed queues. We send these notes so the wait is visible. Nothing is due from you because of this one.
+
+A duplicate upload of a document you already sent was ignored automatically. The claim content is unchanged and is still processing.
+
+No response is needed. If a later letter sets a date, that letter replaces this status note. Until then, the claim remains in process.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0151,val,VA,address_verification,none,ACTION_NEEDED,0,Example VA Regional Office <address@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-06-05,Address verification needed before the next payment,"A piece of example mail was returned by the postal service. We need a current address before the next notice is sent.
+
+Direct deposit can continue to the bank already on file, but the postal address still has to be current for tax statements and decision letters. Those are separate fields.
+
+Please confirm the mailing address no later than April 9, 2026. If we do not hear from you, paper mail pauses. Electronic deposit is not a substitute for this confirmation.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0154,val,DFAS,address_verification,none,ACTION_NEEDED,0,Example myPay <address@dfas.example.com>,Veteran <veteran@mailbox.example.com>,2026-06-08,Confirm the address on the example file,"Example myPay and the example benefits file share a mailing address in this demo. One of them failed a postal check.
+
+The returned envelope did not include a forwarding sticker. Until you verify your address, paper notices will be held in the example queue rather than remailed.
+
+Please confirm the mailing address no later than April 9, 2026. If we do not hear from you, paper mail pauses. Electronic deposit is not a substitute for this confirmation.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0155,val,VA,address_verification,none,ACTION_NEEDED,0,Example VA Regional Office <address@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-06-09,Confirm the address on the example file,"Example myPay and the example benefits file share a mailing address in this demo. One of them failed a postal check.
+
+Direct deposit can continue to the bank already on file, but the postal address still has to be current for tax statements and decision letters. Those are separate fields.
+
+Verify your address by March 13, 2026. Action required so payments are not delayed. Reply with 'address correct' or with the new address. Do not include an account number.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0156,val,DFAS,address_verification,none,ACTION_NEEDED,0,Example myPay <address@dfas.example.com>,Household <household@mailbox.example.com>,2026-06-10,Confirm the address on the example file,"Example myPay and the example benefits file share a mailing address in this demo. One of them failed a postal check.
+
+We will not ask you to read a code aloud or to type a password. The only fact needed is whether the mailing address is right.
+
+Action needed by June 10, 2026: tell us the address is right or replace it. After that date the example file is marked unverified and some notices stop.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0158,val,DFAS,address_verification,none,ACTION_NEEDED,0,Example myPay <address@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-06-12,We need a current address to keep payments moving,"This is an address verification request on the demonstration account. It is not a request for a bank password or a government identifier.
+
+The returned envelope did not include a forwarding sticker. Until you verify your address, paper notices will be held in the example queue rather than remailed.
+
+Verify your address by March 13, 2026. Action required so payments are not delayed. Reply with 'address correct' or with the new address. Do not include an account number.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0165,val,DFAS,mypay_account,none,ACTION_NEEDED,0,Example myPay <alerts@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-06-19,Update your direct deposit on the example myPay file,"The demonstration direct deposit was rejected. Until the destination is updated, the payment sits as an unclaimed credit in the example system.
+
+The returned amount is $1,875.50. The bank reason in this demo is 'account closed'. The entitlement itself was not reduced.
+
+Reply through the example myPay profile by June 9, 2026. The returned payment will not be re-sent to the same closed destination. This deadline is about where the money goes, not about whether it was earned.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0170,val,DFAS,mypay_account,none,ACTION_NEEDED,0,Example myPay <alerts@dfas.example.com>,Veteran <veteran@mailbox.example.com>,2026-06-24,A retired-pay payment was rejected,"A change at the bank, not a change in entitlement, stopped the last retired-pay deposit in this scenario.
+
+Payment of $820.00 was rejected on the March cycle. No replacement check has been cut yet. The money is waiting for a new destination.
+
+You must correct the payment instruction no later than April 14, 2026 if you want the returned amount reissued on the next cycle. A paper check is the fallback only after that update fails.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0171,val,DFAS,mypay_account,none,ACTION_NEEDED,0,Example myPay <alerts@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-06-25,A retired-pay payment was rejected,"A change at the bank, not a change in entitlement, stopped the last retired-pay deposit in this scenario.
+
+The example pay system received a return for $540.00 marked 'unable to locate account'. We will not guess a new account.
+
+Update your direct deposit by March 17, 2026. Action required. Use the example myPay site you already sign in to, and do not send account digits in a reply to this letter.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0172,val,DFAS,mypay_account,none,ACTION_NEEDED,0,Example myPay <alerts@dfas.example.com>,Household <household@mailbox.example.com>,2026-06-26,A retired-pay payment was rejected,"A change at the bank, not a change in entitlement, stopped the last retired-pay deposit in this scenario.
+
+A deposit of $675.25 did not post. The rejection arrived two business days after the release. The pay calendar for next month is still open.
+
+Reply through the example myPay profile by June 9, 2026. The returned payment will not be re-sent to the same closed destination. This deadline is about where the money goes, not about whether it was earned.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0173,val,DFAS,mypay_account,none,ACTION_NEEDED,0,Example myPay <alerts@dfas.example.com>,Veteran <veteran@mailbox.example.com>,2026-06-27,Action needed on the example myPay destination account,"We are writing from example myPay because the payment instruction on file did not work.
+
+The returned amount is $1,875.50. The bank reason in this demo is 'account closed'. The entitlement itself was not reduced.
+
+You must correct the payment instruction no later than April 14, 2026 if you want the returned amount reissued on the next cycle. A paper check is the fallback only after that update fails.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0179,val,DFAS,mypay_1099,none,INFORMATIONAL,0,Example myPay <statements@dfas.example.com>,Household <household@mailbox.example.com>,2026-07-03,Your example 1099-R is now available,"Example myPay posted the annual tax statement for the fictional retired-pay account. This note says where to read it.
+
+The posted statement shows gross pay and the amount withheld for federal tax. It does not calculate what you owe. A tax preparer, if you use one, should read the form itself.
+
+This availability note is informational. You do not have to reply. Downloading the form is optional until you are ready to prepare taxes.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0180,val,DFAS,mypay_1099,none,INFORMATIONAL,0,Example myPay <statements@dfas.example.com>,Veteran <veteran@mailbox.example.com>,2026-01-05,Your example 1099-R is now available,"Example myPay posted the annual tax statement for the fictional retired-pay account. This note says where to read it.
+
+Last year's statement is now available alongside the monthly advice of pay. The monthly slips were not changed by this posting.
+
+No response needed. If the figures look wrong, the example myPay help page explains how to ask for a review, and that request would be a separate process.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0185,val,DFAS,mypay_1099,none,INFORMATIONAL,0,Example myPay <statements@dfas.example.com>,Household <household@mailbox.example.com>,2026-01-10,The retired-pay statement for last year is posted,"A tax statement was added to the example document list. It replaces nothing you have to sign.
+
+The statement summarizes retired pay posted during the prior calendar year on the demonstration account. The total is $14,400.00. Withholding shown there matches what was already taken.
+
+This availability note is informational. You do not have to reply. Downloading the form is optional until you are ready to prepare taxes.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0190,val,DFAS,mypay_1099,none,INFORMATIONAL,0,Example myPay <statements@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-01-15,"1099-R posted for your records, no change was requested","This is the availability notice for the example 1099-R. It is not a bill and not a debt letter.
+
+You can download the 1099-R from the statements tab of example myPay. The form uses the mailing address already verified. No new address is requested here.
+
+No action is required to keep retired pay going. For your information, the statement will remain available in the example account. This letter does not set a filing deadline with any tax authority.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0207,val,VA,newsletter,urgent_newsletter,INFORMATIONAL,0,Example VA News <news@va.example.com>,Household <household@mailbox.example.com>,2026-02-01,"Urgent update from Example VA News, for readers only","Do not miss the enclosed explainer, the subject line says. The explainer is an article. It does not change your award, your premium, or your appointment book.
+
+The bulletin describes how a higher-level review differs from a supplemental claim in general terms. It is education, not an invitation tied to a decision in your name.
+
+For your information. No deadline applies to you because of this mailing. If a real decision later needs a reply, it will arrive as its own letter and will not look like this bulletin.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0212,val,VA,newsletter,none,INFORMATIONAL,0,Example VA News <digest@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-02-06,Example VA News monthly digest,"The calm edition of Example VA News is a digest of public-style stories. It is not tied to the fictional file's claims or payments.
+
+One article talks about organizing papers at home. It is generic advice. It does not claim that your address, your deposit, or your premium is wrong.
+
+This newsletter does not need a response. Missing an edition has no effect on compensation or insurance. The next digest arrives next month.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0217,val,VA,newsletter,none,INFORMATIONAL,0,Example VA News <digest@va.example.com>,Household <household@mailbox.example.com>,2026-02-11,Stories from the demonstration benefits bulletin,"This edition leads with a profile of a fictional volunteer driver and a note about clinic gardens. Neither item asks for a reply.
+
+The volunteer-driver profile describes a route between two example clinics. No recruitment form is attached. The garden note lists which vegetables the demo beds grew.
+
+No response needed. You are on the example reader list only. Leaving the list is optional and is not reported to any rater.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0225,val,VA,survey,none,INFORMATIONAL,0,Example VA Surveys <surveys@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-02-19,Optional survey about a recent example clinic visit,"Example VA Surveys invites feedback on a fictional visit. The invitation is optional and is not part of the medical record.
+
+The optional survey has six questions about wait time and whether the clinician explained the plan. It does not ask for a government identifier or a password.
+
+The survey is optional. No action is required. If you want to answer, the form is at https://surveys.example.com/visit and it closes for this wave on April 30, 2026 without affecting benefits.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0226,val,VA,survey,none,INFORMATIONAL,0,Example VA Surveys <surveys@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-02-20,Optional survey about a recent example clinic visit,"Example VA Surveys invites feedback on a fictional visit. The invitation is optional and is not part of the medical record.
+
+Your feedback would cover the signs in the example lobby and the ease of finding the lab booth. Answers are not tied to payment.
+
+You can ignore this invitation completely. No action required to stay in good standing with the example clinic, the regional office, or the insurer.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0228,val,VA,survey,none,INFORMATIONAL,0,Example VA Surveys <surveys@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-02-22,Optional survey about a recent example clinic visit,"Example VA Surveys invites feedback on a fictional visit. The invitation is optional and is not part of the medical record.
+
+If you start the survey and stop, the partial answers are discarded in this demo. There is no penalty and no second deadline.
+
+No response is needed. Choosing not to answer will not delay a claim, a deposit, or a prescription. The link, if you use it, is https://surveys.example.com/desk.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0229,val,VA,survey,none,INFORMATIONAL,0,Example VA Surveys <surveys@va.example.com>,Veteran <inbox@mailbox.example.com>,2026-02-23,"Your feedback is invited, and it is optional","A questionnaire was opened because the demonstration schedule shows a completed visit. Skipping it has no consequence.
+
+The optional survey has six questions about wait time and whether the clinician explained the plan. It does not ask for a government identifier or a password.
+
+You can ignore this invitation completely. No action required to stay in good standing with the example clinic, the regional office, or the insurer.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0243,val,VGLI,premium_receipt,none,INFORMATIONAL,0,Example VGLI Servicing <receipts@insurance.example.com>,Household <household@mailbox.example.com>,2026-03-09,We received your VGLI premium,"Example VGLI Servicing posted a premium payment on the fictional policy. This letter is the receipt.
+
+The draft for $64.25 cleared. Thank you for your payment. The next bill, when it exists, will be a separate letter.
+
+This receipt is informational. No action required to keep the paid period in force. The example office will not call to ask for a password because of a receipt.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0249,val,VGLI,premium_receipt,none,INFORMATIONAL,0,Example VGLI Servicing <receipts@insurance.example.com>,Household <household@mailbox.example.com>,2026-03-15,"Thank you, the demonstration premium is in","We are confirming that the demonstration policy is paid through the present period. No balance is being billed here.
+
+Payment of $86.40 posted on March 3, 2026. It covers the period that started March 1. The coverage amount is unchanged.
+
+This receipt is informational. No action required to keep the paid period in force. The example office will not call to ask for a password because of a receipt.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0251,val,VGLI,premium_receipt,none,INFORMATIONAL,0,Example VGLI Servicing <receipts@insurance.example.com>,Veteran <inbox@mailbox.example.com>,2026-03-17,"Thank you, the demonstration premium is in","We are confirming that the demonstration policy is paid through the present period. No balance is being billed here.
+
+The draft for $64.25 cleared. Thank you for your payment. The next bill, when it exists, will be a separate letter.
+
+No action is required. For your information, keep this receipt with the policy papers. You do not need to call to confirm the posting.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0258,val,DFAS,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example myPay <courtesy@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-03-24,A quiet note about a date on your example file,"Hello. We hope this note is easy to set aside until you have a free minute. It still has a date on it, and the date matters.
+
+A bank name on the example retired-pay profile looks out of date. We can still correct the destination before the next cycle is locked. After the lock, the old instruction is what the system will try.
+
+When you have a moment before June 6, 2026, send the missing date of birth. That is the last day this courtesy hold stays open. We will proceed kindly, and we will proceed on the file as it is.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0260,val,VA,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example VA Regional Office <courtesy@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-03-26,A quiet note about a date on your example file,"Hello. We hope this note is easy to set aside until you have a free minute. It still has a date on it, and the date matters.
+
+One dependent's date of birth on the demonstration compensation file was left blank. The rate for the current month does not include that person until the date is filled in.
+
+At your convenience, update the destination. The last day we can take the change for the coming cycle is April 11, 2026. A later note is still welcome and would apply to the cycle after that.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0266,val,VA,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example VA Regional Office <courtesy@va.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-01,Courtesy reminder before the example file moves on,"We are glad to write gently. The fictional file is in good shape except for one page that is not here yet.
+
+A bank name on the example retired-pay profile looks out of date. We can still correct the destination before the next cycle is locked. After the lock, the old instruction is what the system will try.
+
+At your convenience, update the destination. The last day we can take the change for the coming cycle is April 11, 2026. A later note is still welcome and would apply to the cycle after that.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0267,val,DFAS,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example myPay <courtesy@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-04-02,Courtesy reminder before the example file moves on,"We are glad to write gently. The fictional file is in good shape except for one page that is not here yet.
+
+The example life policy can still list a different beneficiary. The form is a single page. If it does not arrive, the beneficiary already printed stays in place.
+
+Whenever it is convenient, please send the page. The response window closes on March 25, 2026, and after that the file may be finished without it. We would rather have your note than guess.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0268,val,VGLI,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example VGLI Servicing <courtesy@insurance.example.com>,Household <household@mailbox.example.com>,2026-04-03,Courtesy reminder before the example file moves on,"We are glad to write gently. The fictional file is in good shape except for one page that is not here yet.
+
+One dependent's date of birth on the demonstration compensation file was left blank. The rate for the current month does not include that person until the date is filled in.
+
+When you have a moment before June 6, 2026, send the missing date of birth. That is the last day this courtesy hold stays open. We will proceed kindly, and we will proceed on the file as it is.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0270,val,DFAS,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example myPay <courtesy@dfas.example.com>,Veteran <inbox@mailbox.example.com>,2026-04-05,"We can still add a page, for a little while","Thank you for your patience with the demonstration file. This letter is polite on purpose. Please do not read the tone as 'nothing is due'.
+
+A bank name on the example retired-pay profile looks out of date. We can still correct the destination before the next cycle is locked. After the lock, the old instruction is what the system will try.
+
+Whenever it is convenient, please send the page. The response window closes on March 25, 2026, and after that the file may be finished without it. We would rather have your note than guess.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0271,val,VGLI,polite_deadline,polite_deadline,ACTION_NEEDED,0,Example VGLI Servicing <courtesy@insurance.example.com>,Household <household@mailbox.example.com>,2026-04-06,"We can still add a page, for a little while","Thank you for your patience with the demonstration file. This letter is polite on purpose. Please do not read the tone as 'nothing is due'.
+
+The example life policy can still list a different beneficiary. The form is a single page. If it does not arrive, the beneficiary already printed stays in place.
+
+When you have a moment before June 6, 2026, send the missing date of birth. That is the last day this courtesy hold stays open. We will proceed kindly, and we will proceed on the file as it is.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0279,val,VA,phishing_demand,phishing,ACTION_NEEDED,1,Benefits Security <security@va-notice.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-14,Immediate identity check or the example account closes,"A fake security team wrote this demonstration lure. It copies the urgency of a real notice and then asks for secrets a real office will not ask for by email.
+
+The body threatens that the account will be deleted tonight unless you verify your identity and read back a one-time code to someone on the phone.
+
+Use http://benefits.login.example.com/account before the fake timer ends. The page asks for a password, which is the point of the lure.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0284,val,VA,phishing_demand,phishing,ACTION_NEEDED,1,Benefits Security <security@va-notice.example.com>,Household <household@mailbox.example.com>,2026-04-19,Final warning: confirm your login or pay by gift card,"Read this as a look-alike, built for the dataset so the sorter has a suspicious class. The sender name sounds official and the domain is not.
+
+A bitcoin address is offered as the way to 'clear' a made-up balance. The letter also asks for the example account password.
+
+The lure ends at http://mypay.secure-update.example.com/login and tells you the account will be deleted if you wait. Do not follow it.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0288,val,VA,phishing_demand,phishing,ACTION_NEEDED,1,Benefits Security <security@va-notice.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-23,Account alert that does not come from the real agency,"The following demand is intentionally phish-like. It is labeled so the triage flag can override the action class the wording imitates.
+
+A bitcoin address is offered as the way to 'clear' a made-up balance. The letter also asks for the example account password.
+
+The look-alike collection page is http://insurance.verify-now.example.com/pay and it should not be opened. Gift card payment is a cue by itself.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0291,val,DFAS,phishing_lure,phishing,INFORMATIONAL,1,Statement Desk <notices@mypay-alerts.example.com>,Household <household@mailbox.example.com>,2026-04-26,"Your statement is ready, use the new login link","This softer lure imitates a statement-ready note. The underlying topic sounds informational, and the link is the trap.
+
+A short note says the example document list was copied to a partner page so you can download it without waiting. The partner page is not real.
+
+Download is offered at http://va-benefits.login.example.com/forms which is a look-alike path created for the dataset.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0292,val,DFAS,phishing_lure,phishing,INFORMATIONAL,1,Statement Desk <notices@mypay-alerts.example.com>,Veteran <veteran@mailbox.example.com>,2026-04-27,"Your statement is ready, use the new login link","This softer lure imitates a statement-ready note. The underlying topic sounds informational, and the link is the trap.
+
+The message mentions that a statement posted and that a one-time viewing link will expire. It does not ask you to pay anything.
+
+The document link in this lure is http://benefits.login.example.com/statement and it is not the example myPay site you already use.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."
+vams-0301,val,DFAS,phishing_lure,phishing,INFORMATIONAL,1,Statement Desk <notices@mypay-alerts.example.com>,Veteran <veteran@mailbox.example.com>,2026-05-06,Statement notice with an extra login step,"Treat the paragraph below as a look-alike of ordinary mail. The class of the topic is informational; the flag is suspicious because of the link.
+
+The lure says a retired-pay statement is ready to view and that the usual site is down for the weekend. It suggests a temporary page instead.
+
+The document link in this lure is http://benefits.login.example.com/statement and it is not the example myPay site you already use.
+
+This message is a synthetic example created for a sorting demonstration and is not an official VA, DFAS, or insurer notice."

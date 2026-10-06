@@ -1,0 +1,9 @@
+From: Example Debt Management Center <dmc@va.example.com>
+To: Veteran <veteran@mailbox.example.com>
+Subject: Example debt notice
+Date: Tue, 13 Jan 2026 15:04:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+
+The example file has an overpayment. The balance of $240.00 is due by April 2, 2026.
+Action required: pay the debt or ask for a waiver. This sample is synthetic.

@@ -1,0 +1,25 @@
+# Real mail and credentials stay off this public repo.
+data/real/
+secrets/
+**/gmail_client.json
+**/gmail_token.json
+**/credentials.json
+**/token.json
+client_secret*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Local classify output (regenerate with `vams classify`)
+vams-report.csv
+vams-report.html
+
+.DS_Store
