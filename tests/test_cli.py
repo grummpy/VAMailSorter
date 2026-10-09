@@ -178,3 +178,20 @@ def test_evaluate_rejects_stored_lineage_overlap_and_legacy_bundle(trained_bundl
     trained_bundle.lineage_version = 1
     with pytest.raises(ValueError, match="lacks required split lineage"):
         evaluate(trained_bundle, test, **kwargs)
+
+
+def test_evaluate_rejects_pre_fold_count_bundle(trained_bundle, tmp_path: Path):
+    from vams.data import load_emails, require_split
+    from vams.evaluate import evaluate
+
+    frame = load_emails(ROOT / "data" / "synthetic" / "emails.csv")
+    del trained_bundle.cv_n_splits
+    with pytest.raises(ValueError, match="lacks required split lineage"):
+        evaluate(
+            trained_bundle,
+            require_split(frame, "test"),
+            out_dir=tmp_path,
+            model_card_path=tmp_path / "card.md",
+            n_train=192,
+            n_val=80,
+        )

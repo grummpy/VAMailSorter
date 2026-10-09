@@ -333,6 +333,7 @@ def evaluate(
         "validation_template_families",
         "train_content_fingerprints",
         "validation_content_fingerprints",
+        "cv_n_splits",
     )
     if getattr(bundle, "lineage_version", 0) < 2 or any(
         not hasattr(bundle, attribute) for attribute in lineage_attributes
