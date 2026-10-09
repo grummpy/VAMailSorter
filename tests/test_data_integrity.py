@@ -62,13 +62,18 @@ def test_labeling_invariants(emails: pd.DataFrame):
 
 
 def test_splits_match_files_and_cover_flags(emails: pd.DataFrame):
-    for split, share in (("train", 0.60), ("val", 0.20), ("test", 0.20)):
+    expected_sizes = {"train": 192, "val": 80, "test": 32}
+    for split in SPLITS:
         part = emails.loc[emails["split"] == split]
         on_disk = load_emails(ROOT / "data" / "splits" / f"{split}.csv")
         assert set(part["id"]) == set(on_disk["id"])
-        assert abs(len(part) / len(emails) - share) < 0.03
+        assert len(part) == expected_sizes[split]
         assert set(part["label"]) == set(LABELS)
-        assert part["suspicious"].sum() >= 2
+    # Whole-template assignment means the two synthetic phishing families are
+    # isolated in validation and test rather than copied into every partition.
+    assert emails.loc[emails["split"] == "train", "suspicious"].sum() == 0
+    assert emails.loc[emails["split"] == "val", "suspicious"].sum() == 16
+    assert emails.loc[emails["split"] == "test", "suspicious"].sum() == 16
 
 
 def test_gitignore_blocks_real_mail_and_secrets():

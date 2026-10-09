@@ -5,11 +5,11 @@
 - **Name:** VA Mail Sorter triage classifier
 - **Type:** TF-IDF (word unigrams and bigrams) + L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on the training split)
 - **Deployed C:** 0.25 (chosen by training-split stratified CV, maximizing F2 of ACTION_NEEDED, then recall)
-- **Decision threshold:** 0.50 on calibrated P(ACTION_NEEDED)
-- **Threshold policy:** max_recall_at_precision_0.70, selected on the **validation** split only
+- **Decision threshold:** 0.07 on calibrated P(ACTION_NEEDED)
+- **Threshold policy:** max_f2_fallback, selected on the **validation** split only
 - **Seed:** 42
 - **Comparisons (not deployed):** keyword rules, calibrated linear SVM (C=0.5), calibrated multinomial naive Bayes (alpha=0.1)
-- **Suspicious override:** rule score, cutoff 1.5 chosen on validation (max_f1_then_recall). When it fires, the triage label is SUSPICIOUS and replaces the class label in the report.
+- **Suspicious override:** rule score, cutoff 3.5 chosen on validation (max_f1_then_recall). When it fires, the triage label is SUSPICIOUS and replaces the class label in the report.
 
 Probabilities used at inference come from the sigmoid calibrator. Term explanations come from the single logistic regression fit on the full training split (the `ensemble=False` estimator).
 
@@ -26,9 +26,9 @@ This is not legal advice, benefits advice, or an official VA, DFAS, Prudential, 
 ## Data
 
 - Public corpus: synthetic subjects and bodies only (`data/synthetic/emails.csv`)
-- Rows: 182 train / 61 validation / 61 test
+- Rows: 192 train / 80 validation / 32 test
 - Labels: ACTION_NEEDED and INFORMATIONAL, plus a SUSPICIOUS flag that overrides the class at triage time
-- Split: stratified 60/20/20 on label and suspicious flag, seed 42
+- Split: whole synthetic template families are assigned before rendering; families do not cross partitions (seed 42)
 - The test split is not used to choose C, the class threshold, or the suspicious cutoff
 - Labeling rules: `docs/labeling_guide.md`
 
@@ -46,14 +46,14 @@ Recall of ACTION_NEEDED is the priority: a missed deadline costs more than an ex
 
 | | Precision | Recall | F1 | Support |
 | --- | ---: | ---: | ---: | ---: |
-| ACTION_NEEDED | 1.000 | 1.000 | 1.000 | 33 |
-| INFORMATIONAL | 1.000 | 1.000 | 1.000 | 28 |
+| ACTION_NEEDED | 0.800 | 1.000 | 0.889 | 16 |
+| INFORMATIONAL | 1.000 | 0.750 | 0.857 | 16 |
 
-- F2 (ACTION_NEEDED): 1.000
-- Brier score: 0.000094
-- Expected calibration error (10 equal-width bins): 0.006
-- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): [[33, 0], [0, 28]]
-- Validation operating point at this same threshold: precision 1.000, recall 1.000, F2 1.000
+- F2 (ACTION_NEEDED): 0.952
+- Brier score: 0.027661
+- Expected calibration error (10 equal-width bins): 0.115
+- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): [[16, 0], [4, 12]]
+- Validation operating point at this same threshold: precision 0.608, recall 1.000, F2 0.886
 
 ![Held-out confusion matrix](../reports/confusion_matrix.png)
 
@@ -63,7 +63,7 @@ Recall of ACTION_NEEDED is the priority: a missed deadline costs more than an ex
 
 | Precision | Recall | F1 | Suspicious support |
 | ---: | ---: | ---: | ---: |
-| 0.583 | 1.000 | 0.737 | 7 |
+| 0.000 | 0.000 | 0.000 | 16 |
 
 ## Training-split cross-validation
 
@@ -71,7 +71,7 @@ Default decision rule, not the validation threshold. Used to pick logistic C and
 
 | Model | F2 mean | F2 std | Precision mean | Recall mean |
 | --- | ---: | ---: | ---: | ---: |
-| keyword_rules | 0.968 | 0.014 | 0.859 | 1.000 |
+| keyword_rules | 0.980 | 0.007 | 0.906 | 1.000 |
 | tfidf_logreg_C0.25 | 1.000 | 0.000 | 1.000 | 1.000 |
 | tfidf_logreg_C1.0 | 1.000 | 0.000 | 1.000 | 1.000 |
 | tfidf_logreg_C4.0 | 1.000 | 0.000 | 1.000 | 1.000 |
@@ -88,26 +88,25 @@ The deployed model stays logistic regression even if another row is higher. Test
 
 | Model | Precision ACTION | Recall ACTION | F2 ACTION | Brier |
 | --- | ---: | ---: | ---: | ---: |
-| keyword_rules | 0.825 | 1.000 | 0.959 | 0.075712 |
-| tfidf_linear_svc | 1.000 | 1.000 | 1.000 | 0.000094 |
-| tfidf_multinomial_nb | 1.000 | 1.000 | 1.000 | 0.000100 |
-| tfidf_logreg | 1.000 | 1.000 | 1.000 | 0.000094 |
+| keyword_rules | 0.500 | 1.000 | 0.833 | 0.249615 |
+| tfidf_linear_svc | 0.842 | 1.000 | 0.964 | 0.036750 |
+| tfidf_multinomial_nb | 1.000 | 1.000 | 1.000 | 0.050594 |
+| tfidf_logreg | 0.800 | 1.000 | 0.952 | 0.027661 |
 
 ## Error analysis
 
 Class mismatches on the held-out split, up to 15 rows. The full table, including hard cases that were scored correctly, is `reports/error_analysis.csv`.
 
-No class mismatches on the held-out test split.
+| Id | True | Predicted | P(action) | Note |
+| --- | --- | --- | ---: | --- |
+| vams-0289 | INFORMATIONAL | ACTION_NEEDED | 0.098 | Suspicious cues were below the validation cutoff. |
+| vams-0299 | INFORMATIONAL | ACTION_NEEDED | 0.070 | Suspicious cues were below the validation cutoff. |
+| vams-0302 | INFORMATIONAL | ACTION_NEEDED | 0.170 | Suspicious cues were below the validation cutoff. |
+| vams-0303 | INFORMATIONAL | ACTION_NEEDED | 0.084 | Suspicious cues were below the validation cutoff. |
 
 Suspicious false alarms (benign mail at or above the validation cutoff). The cue list matches words such as "password" even when the sentence says the office will not ask for one.
 
-| Id | Notice | Subject | Note |
-| --- | --- | --- | --- |
-| vams-0148 | address_verification | Please verify your mailing address | Benign mail matched a suspicious rule. |
-| vams-0152 | address_verification | Address verification needed before the next payment | Benign mail matched a suspicious rule. |
-| vams-0233 | survey | A short questionnaire on the demonstration visit | Benign mail matched a suspicious rule. |
-| vams-0237 | survey | Tell us about the example waiting room, if you want | Benign mail matched a suspicious rule. |
-| vams-0246 | premium_receipt | Payment posted on the example life policy | Benign mail matched a suspicious rule. |
+No suspicious false alarms on the held-out test split.
 
 ## Explanations
 

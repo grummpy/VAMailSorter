@@ -15,7 +15,6 @@ from datetime import date, timedelta
 from pathlib import Path
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -50,7 +49,7 @@ def build_rows() -> list[dict]:
     triples = pack_triples(4)
     rows: list[dict] = []
     serial = 1
-    for category in CATEGORIES:
+    for family_index, category in enumerate(CATEGORIES):
         slots = ("openers", "middles", "closings", "subjects")
         for slot in slots:
             if len(category[slot]) != 4:
@@ -74,6 +73,10 @@ def build_rows() -> list[dict]:
             rows.append(
                 {
                     "id": f"vams-{serial:04d}",
+                    # A family is the complete authoring template, not just an
+                    # individual rendered message.  Its paragraphs must never
+                    # appear in more than one partition.
+                    "template_family": f"template-{family_index:02d}",
                     "source": sources[index % len(sources)],
                     "notice_type": category["notice_type"],
                     "hard_case": category["hard_case"],
@@ -92,24 +95,24 @@ def build_rows() -> list[dict]:
 
 def assign_splits(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame.copy()
-    frame["stratum"] = frame["label"] + "|" + frame["suspicious"].astype(str)
-    index = frame.index.to_numpy()
-    train_idx, temp_idx = train_test_split(
-        index, test_size=0.40, random_state=42, stratify=frame.loc[index, "stratum"]
-    )
-    val_idx, test_idx = train_test_split(
-        temp_idx,
-        test_size=0.50,
-        random_state=42,
-        stratify=frame.loc[temp_idx, "stratum"],
-    )
-    frame["split"] = ""
-    frame.loc[train_idx, "split"] = "train"
-    frame.loc[val_idx, "split"] = "val"
-    frame.loc[test_idx, "split"] = "test"
+    # Assign whole authoring families *before* treating their rendered rows as
+    # examples.  Splitting after rendering was an evaluation leak: the same
+    # opener, middle, or closing could be learned in train and scored in test.
+    # These indices give every split both classes while keeping the rare
+    # suspicious template families out of train and preserving deterministic
+    # lineage.  The resulting 192/80/32 size is intentionally reported rather
+    # than pretending it is a row-stratified 60/20/20 split.
+    family_split = {
+        **{f"template-{i:02d}": "train" for i in (0, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14)},
+        **{f"template-{i:02d}": "val" for i in (1, 5, 10, 15, 17)},
+        **{f"template-{i:02d}": "test" for i in (16, 18)},
+    }
+    if set(frame["template_family"]) != set(family_split):
+        raise SystemExit("Template-family assignment does not cover the source bank")
+    frame["split"] = frame["template_family"].map(family_split)
     if (frame["split"] == "").any():
         raise SystemExit("Split assignment left rows unlabeled")
-    return frame.drop(columns=["stratum"])
+    return frame
 
 
 def assert_privacy(frame: pd.DataFrame) -> None:
@@ -154,6 +157,7 @@ def main() -> None:
     column_order = [
         "id",
         "split",
+        "template_family",
         "source",
         "notice_type",
         "hard_case",

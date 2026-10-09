@@ -21,6 +21,12 @@ def test_rule_hits_cover_dates_dollars_and_decision_words():
     assert "keyword_decision" in names
 
 
+def test_dollar_rule_handles_valid_formats_without_truncating_malformed_values():
+    hits = rule_hits("Amounts: $1240.00, $1,240.00, and malformed $12,34.")
+    amounts = [hit["match"] for hit in hits if hit["rule"] == "dollar_amount"]
+    assert amounts == ["$1240.00", "$1,240.00"]
+
+
 def test_negation_is_not_counted_as_action_required():
     forced = action_probability(
         "Action required. The debt is due by March 3, 2026. Amount due $40.00."

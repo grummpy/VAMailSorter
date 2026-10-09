@@ -5,6 +5,7 @@ from pathlib import Path
 
 from vams.mailio import load_path
 from vams.models import save_bundle
+from vams.report import write_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures"
@@ -83,6 +84,26 @@ def test_classify_requires_a_model(tmp_path: Path):
     )
     assert completed.returncode == 2
     assert "vams train" in completed.stderr
+
+
+def test_csv_formula_safety_preserves_numbers_and_raw_evidence(tmp_path: Path):
+    output = tmp_path / "report.csv"
+    write_csv(
+        [{"source_file": "=danger", "subject": "+formula", "p_action_needed": 0.25,
+          "confidence": 0.75, "threshold": 0.5, "suspicious": False,
+          "message_id": "@id", "from": "-sender", "date": "2026-01-01",
+          "triage_label": "ACTION_NEEDED", "predicted_class": "ACTION_NEEDED",
+          "suspicious_cues": "", "top_terms": "", "rule_hits": "raw $1,240.00"}],
+        output,
+    )
+    with output.open(encoding="utf-8", newline="") as handle:
+        row = next(csv.DictReader(handle))
+    assert row["source_file"] == "'=danger"
+    assert row["subject"] == "'+formula"
+    assert row["message_id"] == "'@id"
+    assert row["p_action_needed"] == "0.25"
+    assert row["confidence"] == "0.75"
+    assert row["rule_hits"] == "raw $1,240.00"
 
 
 def test_evaluate_does_not_move_the_threshold(trained_bundle, tmp_path: Path):

@@ -10,6 +10,7 @@ import pandas as pd
 REQUIRED_COLUMNS = (
     "id",
     "split",
+    "template_family",
     "source",
     "notice_type",
     "hard_case",
