@@ -211,8 +211,8 @@ def _model_card(metrics: dict, test_frame: pd.DataFrame) -> str:
 ## Model details
 
 - **Name:** VA Mail Sorter triage classifier
-- **Type:** TF-IDF (word unigrams and bigrams) + L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on the training split)
-- **Deployed C:** {metrics["best_C"]} (chosen by training-split stratified CV, maximizing F2 of ACTION_NEEDED, then recall)
+- **Type:** TF-IDF (word unigrams and bigrams) + L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, {metrics["cv_n_splits"]}-fold on the training split)
+- **Deployed C:** {metrics["best_C"]} (chosen by training-split family-aware CV, maximizing F2 of ACTION_NEEDED, then recall)
 - **Decision threshold:** {primary["threshold"]:.2f} on calibrated P(ACTION_NEEDED)
 - **Threshold policy:** {metrics["threshold_policy"]}, selected on the **validation** split only
 - **Seed:** {metrics["seed"]}
@@ -242,7 +242,7 @@ This is not legal advice, benefits advice, or an official VA, DFAS, Prudential, 
 
 ## Evaluation procedure
 
-1. Family-aware stratified 5-fold CV on the training split compares the keyword baseline, logistic regression, linear SVM, and multinomial naive Bayes. A synthetic template family is kept wholly on one side of every fold. CV predictions use each model's default decision rule (probability 0.5, or the SVM margin).
+1. Family-aware stratified {metrics["cv_n_splits"]}-fold CV on the training split compares the keyword baseline, logistic regression, linear SVM, and multinomial naive Bayes. A synthetic template family is kept wholly on one side of every fold. CV predictions use each model's default decision rule (probability 0.5, or the SVM margin).
 2. The deployed model is logistic regression, because its coefficients are the explanation. Its C is the CV winner inside the logistic grid only.
 3. `CalibratedClassifierCV` fits the sigmoid map from out-of-fold training scores.
 4. The class threshold and the suspicious cutoff are chosen on validation only.
@@ -333,6 +333,7 @@ def evaluate(
         "validation_template_families",
         "train_content_fingerprints",
         "validation_content_fingerprints",
+        "cv_n_splits",
     )
     if getattr(bundle, "lineage_version", 0) < 2 or any(
         not hasattr(bundle, attribute) for attribute in lineage_attributes
@@ -402,6 +403,7 @@ def evaluate(
         "best_C": bundle.best_C,
         "best_svm_C": bundle.best_svm_C,
         "best_nb_alpha": bundle.best_nb_alpha,
+        "cv_n_splits": bundle.cv_n_splits,
         "n_train": n_train,
         "n_val": n_val,
         "n_test": int(len(test_df)),

@@ -44,7 +44,7 @@ Template families are assigned to train, validation, or test before their synthe
 vams train
 ```
 
-This writes `artifacts/model.joblib` and `artifacts/train_summary.json`. The deployed model is TF-IDF unigrams and bigrams plus L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on train). Linear SVM and multinomial naive Bayes are fit the same way and reported as comparisons. A keyword-rule model is the other baseline. `C` (and the comparison hyperparameters) are chosen by family-aware stratified 5-fold F2 on train: every synthetic template family stays wholly in the fit or scoring side of a fold. Recall of ACTION_NEEDED breaks ties. Seed 42.
+This writes `artifacts/model.joblib` and `artifacts/train_summary.json`. The deployed model is TF-IDF unigrams and bigrams plus L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, up to 5 folds on train). Linear SVM and multinomial naive Bayes are fit the same way and reported as comparisons. A keyword-rule model is the other baseline. `C` (and the comparison hyperparameters) are chosen by family-aware stratified CV: every synthetic template family stays wholly in the fit or scoring side of a fold, and the actual fold count is capped by the smallest per-class family count. Recall of ACTION_NEEDED breaks ties. Seed 42.
 
 On this corpus, family-aware CV selected the smallest logistic value: **0.25**.
 
