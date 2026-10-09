@@ -72,6 +72,7 @@ def _train(args) -> int:
         "validation_f2_action": bundle.threshold_val_f2,
         "suspicious_threshold": bundle.suspicious_threshold,
         "suspicious_policy": bundle.suspicious_policy,
+        "cv_n_splits": bundle.cv_n_splits,
         "cv": bundle.cv_results,
         "model": str(out),
     }

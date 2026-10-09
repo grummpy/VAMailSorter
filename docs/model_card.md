@@ -4,7 +4,7 @@
 
 - **Name:** VA Mail Sorter triage classifier
 - **Type:** TF-IDF (word unigrams and bigrams) + L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on the training split)
-- **Deployed C:** 0.25 (chosen by training-split stratified CV, maximizing F2 of ACTION_NEEDED, then recall)
+- **Deployed C:** 0.25 (chosen by training-split family-aware CV, maximizing F2 of ACTION_NEEDED, then recall)
 - **Decision threshold:** 0.08 on calibrated P(ACTION_NEEDED)
 - **Threshold policy:** max_f2_fallback, selected on the **validation** split only
 - **Seed:** 42

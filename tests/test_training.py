@@ -70,6 +70,23 @@ def test_internal_cv_rejects_a_class_with_one_template_family():
         make_cv(np.asarray([0, 0, 1, 1]), ["a", "b", "only", "only"], seed=42)
 
 
+def test_internal_cv_caps_folds_by_the_smallest_class_family_count():
+    y = np.asarray([0] * 4 + [1] * 8)
+    families = np.asarray(
+        ["negative-a"] * 2
+        + ["negative-b"] * 2
+        + ["positive-a"] * 2
+        + ["positive-b"] * 2
+        + ["positive-c"] * 2
+        + ["positive-d"] * 2
+    )
+    folds = make_cv(y, families, seed=42)
+    assert len(folds) == 2
+    for train_index, test_index in folds:
+        assert set(y[train_index]) == {0, 1}
+        assert set(y[test_index]) == {0, 1}
+
+
 def test_train_refuses_to_mix_in_test_rows(frame):
     mixed = frame.loc[frame["split"].isin(["train", "test"])]
     with pytest.raises(ValueError, match="train split"):

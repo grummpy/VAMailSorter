@@ -100,15 +100,17 @@ def make_cv(y: np.ndarray, groups, seed: int) -> list[tuple[np.ndarray, np.ndarr
     unique_families = np.unique(families)
     if len(unique_families) < 2:
         raise ValueError("family-aware CV needs at least two template families")
-    for label in np.unique(labels):
-        if len(np.unique(families[labels == label])) < 2:
+    family_counts = [len(np.unique(families[labels == label])) for label in np.unique(labels)]
+    if min(family_counts) < 2:
             raise ValueError("each class needs at least two template families for grouped CV")
-    n_splits = min(5, len(unique_families))
+    n_splits = min(5, min(family_counts))
     splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
     folds = list(splitter.split(np.zeros(len(labels)), labels, families))
     for train_index, test_index in folds:
         if set(families[train_index]) & set(families[test_index]):
             raise AssertionError("template family crossed an internal CV fold")
+        if set(labels[train_index]) != set(labels) or set(labels[test_index]) != set(labels):
+            raise AssertionError("an internal CV fold lost a class")
     return folds
 
 
@@ -199,6 +201,7 @@ class ModelBundle:
     best_svm_C: float
     best_nb_alpha: float
     cv_results: list[dict]
+    cv_n_splits: int
     calibrated: CalibratedClassifierCV
     explain_estimator: Pipeline
     # Version 2 includes family and content lineage required for held-out evaluation.
@@ -319,6 +322,7 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
         best_svm_C=best_svm_C,
         best_nb_alpha=best_alpha,
         cv_results=cv_results,
+        cv_n_splits=len(cv),
         calibrated=calibrated,
         explain_estimator=explain_estimator,
         comparisons=comparisons,

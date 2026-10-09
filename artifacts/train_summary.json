@@ -11,6 +11,7 @@
   "validation_f2_action": 0.8703703703703703,
   "suspicious_threshold": 3.5,
   "suspicious_policy": "max_f1_then_recall",
+  "cv_n_splits": 5,
   "cv": [
     {
       "model": "keyword_rules",

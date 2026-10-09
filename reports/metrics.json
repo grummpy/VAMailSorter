@@ -11,6 +11,7 @@
   "best_C": 0.25,
   "best_svm_C": 0.5,
   "best_nb_alpha": 0.5,
+  "cv_n_splits": 5,
   "n_train": 192,
   "n_val": 80,
   "n_test": 32,
