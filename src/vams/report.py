@@ -68,7 +68,11 @@ def write_csv(rows: list[dict], path: Path) -> None:
         # while quoting dangerous text fields with a visible apostrophe.
         writer.writerows(
             {
-                key: _csv_safe(value) if key not in {"p_action_needed", "confidence", "threshold", "suspicious"} else value
+                key: (
+                    _csv_safe(value)
+                    if key not in {"p_action_needed", "confidence", "threshold", "suspicious"}
+                    else value
+                )
                 for key, value in row.items()
             }
             for row in rows
