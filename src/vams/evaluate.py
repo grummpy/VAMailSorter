@@ -326,8 +326,10 @@ def evaluate(
 ) -> dict:
     if "split" in test_df.columns and not (test_df["split"] == "test").all():
         raise ValueError("evaluate expects the held-out test split only")
-    if set(test_df["id"]) & set(getattr(bundle, "train_ids", ())):
-        raise ValueError("test ids overlap stored train ids")
+    known_ids = set(getattr(bundle, "train_ids", ())) | set(getattr(bundle, "validation_ids", ()))
+    overlap = set(test_df["id"]) & known_ids
+    if overlap:
+        raise ValueError(f"test ids overlap stored training identities: {sorted(overlap)[:5]}")
 
     out_dir.mkdir(parents=True, exist_ok=True)
     texts = as_text(test_df)

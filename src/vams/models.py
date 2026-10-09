@@ -175,6 +175,8 @@ class ModelBundle:
     comparisons: dict = field(default_factory=dict)
     comparison_thresholds: dict = field(default_factory=dict)
     fitted_on: str = "train"
+    train_ids: tuple[str, ...] = ()
+    validation_ids: tuple[str, ...] = ()
 
     def predict_action_proba(self, texts) -> np.ndarray:
         return _action_proba(self.calibrated, texts)
@@ -283,6 +285,8 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
         explain_estimator=explain_estimator,
         comparisons=comparisons,
         comparison_thresholds=comparison_thresholds,
+        train_ids=tuple(sorted(str(value) for value in train_df["id"])),
+        validation_ids=tuple(sorted(str(value) for value in val_df["id"])),
     )
 
 
