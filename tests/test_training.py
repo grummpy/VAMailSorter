@@ -5,7 +5,7 @@ import pytest
 
 from vams.data import as_text, load_emails, require_split
 from vams.metrics import select_threshold
-from vams.models import train
+from vams.models import make_cv, train
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -52,9 +52,35 @@ def test_training_is_deterministic(frame, trained_bundle):
     assert bundle.threshold_selected_on == "validation"
     assert bundle.fitted_on == "train"
     assert set(bundle.train_ids).isdisjoint(bundle.validation_ids)
+    assert set(bundle.train_template_families).isdisjoint(bundle.validation_template_families)
+
+
+def test_internal_cv_keeps_template_families_disjoint(frame):
+    train_frame = require_split(frame, "train")
+    y = np.asarray([1 if label == "ACTION_NEEDED" else 0 for label in train_frame["label"]])
+    families = train_frame["template_family"].to_numpy()
+    folds = make_cv(y, families, seed=42)
+    assert len(folds) == 5
+    for train_index, test_index in folds:
+        assert set(families[train_index]).isdisjoint(families[test_index])
+
+
+def test_internal_cv_rejects_a_class_with_one_template_family():
+    with pytest.raises(ValueError, match="each class needs"):
+        make_cv(np.asarray([0, 0, 1, 1]), ["a", "b", "only", "only"], seed=42)
 
 
 def test_train_refuses_to_mix_in_test_rows(frame):
     mixed = frame.loc[frame["split"].isin(["train", "test"])]
     with pytest.raises(ValueError, match="train split"):
         train(mixed, require_split(frame, "val"), seed=42)
+
+
+def test_train_refuses_cross_split_content_even_when_ids_and_families_change(frame):
+    train_frame = require_split(frame, "train")
+    disguised_validation = train_frame.head(2).copy()
+    disguised_validation["id"] = ["other-1", "other-2"]
+    disguised_validation["template_family"] = ["other-family-1", "other-family-2"]
+    disguised_validation["split"] = "val"
+    with pytest.raises(ValueError, match="content overlap"):
+        train(train_frame, disguised_validation, seed=42)

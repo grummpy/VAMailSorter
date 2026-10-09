@@ -44,9 +44,9 @@ Template families are assigned to train, validation, or test before their synthe
 vams train
 ```
 
-This writes `artifacts/model.joblib` and `artifacts/train_summary.json`. The deployed model is TF-IDF unigrams and bigrams plus L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on train). Linear SVM and multinomial naive Bayes are fit the same way and reported as comparisons. A keyword-rule model is the other baseline. `C` (and the comparison hyperparameters) are chosen by stratified 5-fold F2 on train, with recall of ACTION_NEEDED as the tie-break. Seed 42.
+This writes `artifacts/model.joblib` and `artifacts/train_summary.json`. The deployed model is TF-IDF unigrams and bigrams plus L2 logistic regression, sigmoid-calibrated with `CalibratedClassifierCV` (`method="sigmoid"`, `ensemble=False`, 5-fold on train). Linear SVM and multinomial naive Bayes are fit the same way and reported as comparisons. A keyword-rule model is the other baseline. `C` (and the comparison hyperparameters) are chosen by family-aware stratified 5-fold F2 on train: every synthetic template family stays wholly in the fit or scoring side of a fold. Recall of ACTION_NEEDED breaks ties. Seed 42.
 
-On this corpus every logistic `C` in `{0.25, 1, 4}` tied at training F2 1.0, so the smallest `C` won: **0.25**.
+On this corpus, family-aware CV selected the smallest logistic value: **0.25**.
 
 ## Evaluate
 
@@ -63,7 +63,7 @@ Prints held-out metrics and writes:
 - `reports/error_analysis.csv`
 - `docs/model_card.md`
 
-The threshold rule, applied to validation probabilities only, keeps the highest ACTION_NEEDED recall whose precision is at least 0.70. Ties break toward the threshold closest to 0.5. If nothing cleared the floor, the rule would fall back to F2. Validation precision and recall were both 1.0, so the threshold is **0.50**.
+The threshold rule, applied to validation probabilities only, keeps the highest ACTION_NEEDED recall whose precision is at least 0.70. Ties break toward the threshold closest to 0.5. If nothing clears the floor, the rule falls back to F2. On this synthetic validation split no candidate cleared the floor, so the threshold is **0.08** (`max_f2_fallback`; precision **0.603**, recall **0.979**, F2 **0.870**).
 
 ## Classify
 
@@ -86,17 +86,17 @@ The only scope requested is `https://www.googleapis.com/auth/gmail.readonly`. Th
 
 These numbers are from `vams evaluate` on the corrected 32-message synthetic test split (16 ACTION_NEEDED, 16 INFORMATIONAL) after `vams train` with seed 42. They are also in `reports/metrics.json` and the [model card](docs/model_card.md). They measure only this deliberately synthetic corpus.
 
-Deployed model, threshold 0.50:
+Deployed model, threshold 0.08:
 
 | Class | Precision | Recall | F1 | Support |
 | --- | ---: | ---: | ---: | ---: |
-| ACTION_NEEDED | 0.800 | 1.000 | 0.889 | 16 |
-| INFORMATIONAL | 1.000 | 0.750 | 0.857 | 16 |
+| ACTION_NEEDED | 0.941 | 1.000 | 0.970 | 16 |
+| INFORMATIONAL | 1.000 | 0.938 | 0.968 | 16 |
 
-- F2 (ACTION_NEEDED): 0.952
-- Brier score: 0.027661
-- Expected calibration error, 10 equal-width bins: 0.115
-- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): `[[16, 0], [4, 12]]`
+- F2 (ACTION_NEEDED): 0.988
+- Brier score: 0.016339
+- Expected calibration error, 10 equal-width bins: 0.076
+- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): `[[16, 0], [1, 15]]`
 
 ![Held-out confusion matrix](reports/confusion_matrix.png)
 
@@ -106,7 +106,7 @@ The keyword baseline, at its own validation threshold of 0.50, reaches ACTION_NE
 
 Suspicious override (validation cutoff **3.5**): precision **0.000**, recall **0.000**, F1 **0.000** (16 suspicious messages in the test split). The isolated template-family split exposes that these fixed cues do not generalize to the held-out phishing template; this is not a real-world phishing measurement.
 
-Training-split cross-validation (default 0.5 cutoff, not the validation threshold) is in `reports/cv_results.csv`. Keyword F2 was 0.968 ± 0.014. The TF-IDF models were at F2 1.0 on every fold of this corpus.
+Training-split family-aware cross-validation (default 0.5 cutoff, not the validation threshold) is in `reports/cv_results.csv`. Keyword F2 was 0.979 ± 0.012. The deployed logistic model's family-aware F2 was 0.914 ± 0.038.
 
 ## How a prediction is explained
 
@@ -123,7 +123,7 @@ ruff check src tests scripts
 pytest
 ```
 
-The suite covers data integrity, template-family and row-identity leakage, deterministic training at seed 42, amount parsing, CSV formula safety, explanation output, and the CLI. This environment's last `pytest` run was **22 passed**.
+The suite covers data integrity, template-family/content/row-identity leakage, family-aware internal folds and calibration, deterministic training at seed 42, amount parsing, CSV formula safety, explanation output, and the CLI. This environment's last `pytest` run was **26 passed**.
 
 ## Limitations
 

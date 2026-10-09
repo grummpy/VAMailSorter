@@ -4,119 +4,119 @@
   "threshold_selected_on": "validation",
   "test_used_for_tuning": false,
   "threshold_policy": "max_f2_fallback",
-  "threshold_val_precision": 0.6075949367088608,
-  "threshold_val_recall": 1.0,
-  "threshold_val_f2": 0.8856088560885609,
+  "threshold_val_precision": 0.6025641025641025,
+  "threshold_val_recall": 0.9791666666666666,
+  "threshold_val_f2": 0.8703703703703703,
   "suspicious_policy": "max_f1_then_recall",
   "best_C": 0.25,
   "best_svm_C": 0.5,
-  "best_nb_alpha": 0.1,
+  "best_nb_alpha": 0.5,
   "n_train": 192,
   "n_val": 80,
   "n_test": 32,
   "cv_train": [
     {
       "model": "keyword_rules",
-      "f2_mean": 0.9795262189799876,
-      "f2_std": 0.006551873589395758,
-      "precision_mean": 0.906060606060606,
-      "precision_std": 0.02810854213116522,
+      "f2_mean": 0.9793340051812818,
+      "f2_std": 0.011828122970552165,
+      "precision_mean": 0.9068337510442774,
+      "precision_std": 0.05209471182421647,
       "recall_mean": 1.0,
       "recall_std": 0.0
     },
     {
       "model": "tfidf_logreg_C0.25",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.9136618717859155,
+      "f2_std": 0.037887680857695165,
+      "precision_mean": 0.8787658802177859,
+      "precision_std": 0.1745814637579091,
+      "recall_mean": 0.9375,
+      "recall_std": 0.05590169943749474
     },
     {
       "model": "tfidf_logreg_C1.0",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.9118316269906742,
+      "f2_std": 0.04055264560829892,
+      "precision_mean": 0.8750877192982456,
+      "precision_std": 0.18149001975295834,
+      "recall_mean": 0.9375,
+      "recall_std": 0.05590169943749474
     },
     {
       "model": "tfidf_logreg_C4.0",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.9011756163346636,
+      "f2_std": 0.049046115170417265,
+      "precision_mean": 0.8750877192982456,
+      "precision_std": 0.18149001975295834,
+      "recall_mean": 0.925,
+      "recall_std": 0.07288689868556626
     },
     {
       "model": "tfidf_linear_svc_C0.5",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8958819852345808,
+      "f2_std": 0.05056881369718926,
+      "precision_mean": 0.8750877192982456,
+      "precision_std": 0.18149001975295834,
+      "recall_mean": 0.91875,
+      "recall_std": 0.07806247497997998
     },
     {
       "model": "tfidf_linear_svc_C1.0",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8958819852345808,
+      "f2_std": 0.05056881369718926,
+      "precision_mean": 0.8750877192982456,
+      "precision_std": 0.18149001975295834,
+      "recall_mean": 0.91875,
+      "recall_std": 0.07806247497997998
     },
     {
       "model": "tfidf_linear_svc_C4.0",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8831538399196492,
+      "f2_std": 0.06558414109135553,
+      "precision_mean": 0.871646859083192,
+      "precision_std": 0.18798362557941306,
+      "recall_mean": 0.90625,
+      "recall_std": 0.09682458365518543
     },
     {
       "model": "tfidf_multinomial_nb_alpha0.1",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8727232817911321,
+      "f2_std": 0.0723236475181738,
+      "precision_mean": 0.8473684210526315,
+      "precision_std": 0.2013802786285157,
+      "recall_mean": 0.9,
+      "recall_std": 0.09354143466934853
     },
     {
       "model": "tfidf_multinomial_nb_alpha0.5",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8935564435564436,
+      "f2_std": 0.05901357829907762,
+      "precision_mean": 0.85,
+      "precision_std": 0.2,
+      "recall_mean": 0.925,
+      "recall_std": 0.07288689868556626
     },
     {
       "model": "tfidf_multinomial_nb_alpha1.0",
-      "f2_mean": 1.0,
-      "f2_std": 0.0,
-      "precision_mean": 1.0,
-      "precision_std": 0.0,
-      "recall_mean": 1.0,
-      "recall_std": 0.0
+      "f2_mean": 0.8889479174247388,
+      "f2_std": 0.08454765955944082,
+      "precision_mean": 0.86,
+      "precision_std": 0.19595917942265426,
+      "recall_mean": 0.91875,
+      "recall_std": 0.11110243021644485
     }
   ],
   "held_out": {
     "tfidf_logreg": {
-      "threshold": 0.07,
-      "precision_action_needed": 0.8,
+      "threshold": 0.08,
+      "precision_action_needed": 0.9411764705882353,
       "recall_action_needed": 1.0,
-      "f1_action_needed": 0.8888888888888888,
-      "f2_action_needed": 0.9523809523809523,
+      "f1_action_needed": 0.9696969696969697,
+      "f2_action_needed": 0.9876543209876543,
       "support_action_needed": 16,
       "precision_informational": 1.0,
-      "recall_informational": 0.75,
-      "f1_informational": 0.8571428571428571,
+      "recall_informational": 0.9375,
+      "f1_informational": 0.967741935483871,
       "support_informational": 16,
       "confusion_matrix_labels": [
         "ACTION_NEEDED",
@@ -128,12 +128,12 @@
           0
         ],
         [
-          4,
-          12
+          1,
+          15
         ]
       ],
-      "brier": 0.02766095781206577,
-      "ece_10": 0.11516080004117986
+      "brier": 0.01633936821702265,
+      "ece_10": 0.07612941027658118
     },
     "comparisons": {
       "keyword_rules": {
@@ -165,7 +165,7 @@
         "ece_10": 0.09042171687611383
       },
       "tfidf_linear_svc": {
-        "threshold": 0.13,
+        "threshold": 0.07,
         "precision_action_needed": 0.8421052631578947,
         "recall_action_needed": 1.0,
         "f1_action_needed": 0.9142857142857143,
@@ -189,19 +189,19 @@
             13
           ]
         ],
-        "brier": 0.03675004514000356,
-        "ece_10": 0.1460875827849132
+        "brier": 0.021270552299314845,
+        "ece_10": 0.08761934494107326
       },
       "tfidf_multinomial_nb": {
-        "threshold": 0.08,
-        "precision_action_needed": 1.0,
+        "threshold": 0.06,
+        "precision_action_needed": 0.6956521739130435,
         "recall_action_needed": 1.0,
-        "f1_action_needed": 1.0,
-        "f2_action_needed": 1.0,
+        "f1_action_needed": 0.8205128205128205,
+        "f2_action_needed": 0.9195402298850575,
         "support_action_needed": 16,
         "precision_informational": 1.0,
-        "recall_informational": 1.0,
-        "f1_informational": 1.0,
+        "recall_informational": 0.5625,
+        "f1_informational": 0.72,
         "support_informational": 16,
         "confusion_matrix_labels": [
           "ACTION_NEEDED",
@@ -213,23 +213,23 @@
             0
           ],
           [
-            0,
-            16
+            7,
+            9
           ]
         ],
-        "brier": 0.05059377425273872,
-        "ece_10": 0.07840476991397384
+        "brier": 0.03021819109484304,
+        "ece_10": 0.11560503462651085
       },
       "tfidf_logreg": {
-        "threshold": 0.07,
-        "precision_action_needed": 0.8,
+        "threshold": 0.08,
+        "precision_action_needed": 0.9411764705882353,
         "recall_action_needed": 1.0,
-        "f1_action_needed": 0.8888888888888888,
-        "f2_action_needed": 0.9523809523809523,
+        "f1_action_needed": 0.9696969696969697,
+        "f2_action_needed": 0.9876543209876543,
         "support_action_needed": 16,
         "precision_informational": 1.0,
-        "recall_informational": 0.75,
-        "f1_informational": 0.8571428571428571,
+        "recall_informational": 0.9375,
+        "f1_informational": 0.967741935483871,
         "support_informational": 16,
         "confusion_matrix_labels": [
           "ACTION_NEEDED",
@@ -241,12 +241,12 @@
             0
           ],
           [
-            4,
-            12
+            1,
+            15
           ]
         ],
-        "brier": 0.02766095781206577,
-        "ece_10": 0.11516080004117986
+        "brier": 0.01633936821702265,
+        "ece_10": 0.07612941027658118
       }
     },
     "suspicious": {
@@ -260,38 +260,6 @@
   },
   "error_analysis_mistakes": [
     {
-      "id": "vams-0289",
-      "subject": "Your statement is ready, use the new login link",
-      "notice_type": "phishing_lure",
-      "hard_case": "phishing",
-      "suspicious": 1,
-      "y_true": "INFORMATIONAL",
-      "y_pred": "ACTION_NEEDED",
-      "triage_label": "ACTION_NEEDED",
-      "p_action_needed": 0.0977,
-      "class_correct": 0,
-      "suspicious_detected": 0,
-      "top_terms": "payment (+0.013); be (+0.010); should (+0.010); should be (+0.010); the new (+0.009); treated (+0.008); treated as (+0.008); is the (+0.008)",
-      "rule_hits": "",
-      "notes": "Suspicious cues were below the validation cutoff."
-    },
-    {
-      "id": "vams-0299",
-      "subject": "A document is waiting behind a look-alike login",
-      "notice_type": "phishing_lure",
-      "hard_case": "phishing",
-      "suspicious": 1,
-      "y_true": "INFORMATIONAL",
-      "y_pred": "ACTION_NEEDED",
-      "triage_label": "ACTION_NEEDED",
-      "p_action_needed": 0.0704,
-      "class_correct": 0,
-      "suspicious_detected": 0,
-      "top_terms": "payment (+0.014); be (+0.011); so (+0.011); can (+0.011); should (+0.011); should be (+0.010); treated as (+0.008); treated (+0.008)",
-      "rule_hits": "",
-      "notes": "Suspicious cues were below the validation cutoff."
-    },
-    {
       "id": "vams-0302",
       "subject": "Statement notice with an extra login step",
       "notice_type": "phishing_lure",
@@ -300,26 +268,10 @@
       "y_true": "INFORMATIONAL",
       "y_pred": "ACTION_NEEDED",
       "triage_label": "ACTION_NEEDED",
-      "p_action_needed": 0.1704,
+      "p_action_needed": 0.143,
       "class_correct": 0,
       "suspicious_detected": 0,
       "top_terms": "be (+0.019); mail (+0.017); payment (+0.014); can (+0.011); should (+0.011); extra (+0.010); should be (+0.010); below (+0.010)",
-      "rule_hits": "",
-      "notes": "Suspicious cues were below the validation cutoff."
-    },
-    {
-      "id": "vams-0303",
-      "subject": "Statement notice with an extra login step",
-      "notice_type": "phishing_lure",
-      "hard_case": "phishing",
-      "suspicious": 1,
-      "y_true": "INFORMATIONAL",
-      "y_pred": "ACTION_NEEDED",
-      "triage_label": "ACTION_NEEDED",
-      "p_action_needed": 0.0843,
-      "class_correct": 0,
-      "suspicious_detected": 0,
-      "top_terms": "mail (+0.017); verify (+0.011); so (+0.011); can (+0.011); extra (+0.011); below (+0.011); without (+0.008); mail the (+0.007)",
       "rule_hits": "",
       "notes": "Suspicious cues were below the validation cutoff."
     }

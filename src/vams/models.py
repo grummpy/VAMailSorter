@@ -14,13 +14,13 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.model_selection import StratifiedGroupKFold, cross_validate
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from threadpoolctl import threadpool_limits
 
-from vams.data import as_text, encode_labels
+from vams.data import as_text, content_fingerprints, encode_labels
 from vams.metrics import select_suspicious_threshold, select_threshold
 from vams.rules import KeywordRuleClassifier, suspicious_score
 
@@ -86,8 +86,30 @@ def make_nb(alpha: float) -> Pipeline:
     )
 
 
-def make_cv(seed: int) -> StratifiedKFold:
-    return StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
+def make_cv(y: np.ndarray, groups, seed: int) -> list[tuple[np.ndarray, np.ndarray]]:
+    """Return deterministic, template-family-disjoint folds.
+
+    A rendered synthetic message is not an independent sample: messages from
+    the same authoring family share paragraphs.  Grouped folds keep every
+    family on one side of each internal model-selection and calibration split.
+    """
+    labels = np.asarray(y, dtype=int)
+    families = np.asarray(groups, dtype=str)
+    if len(labels) != len(families):
+        raise ValueError("CV labels and template families must have the same length")
+    unique_families = np.unique(families)
+    if len(unique_families) < 2:
+        raise ValueError("family-aware CV needs at least two template families")
+    for label in np.unique(labels):
+        if len(np.unique(families[labels == label])) < 2:
+            raise ValueError("each class needs at least two template families for grouped CV")
+    n_splits = min(5, len(unique_families))
+    splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    folds = list(splitter.split(np.zeros(len(labels)), labels, families))
+    for train_index, test_index in folds:
+        if set(families[train_index]) & set(families[test_index]):
+            raise AssertionError("template family crossed an internal CV fold")
+    return folds
 
 
 def _cv_row(name: str, estimator, texts, y, cv) -> dict:
@@ -123,14 +145,14 @@ def _recall_scorer(estimator, X, y):
     return recall_score(y, pred, pos_label=1, zero_division=0)
 
 
-def _calibrate(estimator, texts, y, seed: int) -> CalibratedClassifierCV:
-    # ensemble=False fits one model on all training rows and uses out-of-fold
-    # scores only to fit the sigmoid calibrator. Term weights then belong to
-    # the same model that is scored at inference time.
+def _calibrate(estimator, texts, y, cv) -> CalibratedClassifierCV:
+    # ensemble=False fits one model on all training rows and uses family-aware
+    # out-of-fold scores only to fit the sigmoid calibrator. Term weights then
+    # belong to the same model that is scored at inference time.
     calibrated = CalibratedClassifierCV(
         estimator=estimator,
         method="sigmoid",
-        cv=make_cv(seed),
+        cv=cv,
         ensemble=False,
     )
     calibrated.fit(texts, y)
@@ -144,11 +166,18 @@ def _action_proba(calibrated: CalibratedClassifierCV, texts) -> np.ndarray:
 
 
 def _guard_frames(train_df, val_df) -> None:
-    if "id" not in train_df.columns or "id" not in val_df.columns:
-        raise ValueError("train and validation frames need an id column")
+    required = {"id", "template_family"}
+    if not required <= set(train_df.columns) or not required <= set(val_df.columns):
+        raise ValueError("train and validation frames need id and template_family columns")
     overlap = set(train_df["id"]) & set(val_df["id"])
     if overlap:
         raise ValueError(f"train/validation id overlap: {sorted(overlap)[:5]}")
+    family_overlap = set(train_df["template_family"]) & set(val_df["template_family"])
+    if family_overlap:
+        raise ValueError(f"train/validation template overlap: {sorted(family_overlap)[:5]}")
+    content_overlap = set(content_fingerprints(train_df)) & set(content_fingerprints(val_df))
+    if content_overlap:
+        raise ValueError("train/validation content overlap")
     if "split" in train_df.columns and not (train_df["split"] == "train").all():
         raise ValueError("training frame contains rows that are not in the train split")
     if "split" in val_df.columns and not (val_df["split"] == "val").all():
@@ -172,11 +201,17 @@ class ModelBundle:
     cv_results: list[dict]
     calibrated: CalibratedClassifierCV
     explain_estimator: Pipeline
+    # Version 2 includes family and content lineage required for held-out evaluation.
+    lineage_version: int = 0
     comparisons: dict = field(default_factory=dict)
     comparison_thresholds: dict = field(default_factory=dict)
     fitted_on: str = "train"
     train_ids: tuple[str, ...] = ()
     validation_ids: tuple[str, ...] = ()
+    train_template_families: tuple[str, ...] = ()
+    validation_template_families: tuple[str, ...] = ()
+    train_content_fingerprints: tuple[str, ...] = ()
+    validation_content_fingerprints: tuple[str, ...] = ()
 
     def predict_action_proba(self, texts) -> np.ndarray:
         return _action_proba(self.calibrated, texts)
@@ -195,19 +230,21 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
     _guard_frames(train_df, val_df)
     texts = as_text(train_df)
     y = np.asarray(encode_labels(train_df["label"]), dtype=int)
+    families = train_df["template_family"].astype(str).to_numpy()
+    cv = make_cv(y, families, seed)
     val_texts = as_text(val_df)
     y_val = np.asarray(encode_labels(val_df["label"]), dtype=int)
 
     with threadpool_limits(limits=1):
         cv_results: list[dict] = []
         cv_results.append(
-            _cv_row("keyword_rules", KeywordRuleClassifier(), texts, y, make_cv(seed))
+            _cv_row("keyword_rules", KeywordRuleClassifier(), texts, y, cv)
         )
 
         best_C = LR_C_GRID[0]
         best_key = (-1.0, -1.0, 0.0)
         for C in LR_C_GRID:
-            row = _cv_row(f"tfidf_logreg_C{C}", make_logreg(C, seed), texts, y, make_cv(seed))
+            row = _cv_row(f"tfidf_logreg_C{C}", make_logreg(C, seed), texts, y, cv)
             cv_results.append(row)
             key = (row["f2_mean"], row["recall_mean"], -float(C))
             if key > best_key:
@@ -217,7 +254,7 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
         best_svm_C = SVM_C_GRID[0]
         best_svm_key = (-1.0, -1.0, 0.0)
         for C in SVM_C_GRID:
-            row = _cv_row(f"tfidf_linear_svc_C{C}", make_svm(C, seed), texts, y, make_cv(seed))
+            row = _cv_row(f"tfidf_linear_svc_C{C}", make_svm(C, seed), texts, y, cv)
             cv_results.append(row)
             key = (row["f2_mean"], row["recall_mean"], -float(C))
             if key > best_svm_key:
@@ -232,7 +269,7 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
                 make_nb(alpha),
                 texts,
                 y,
-                make_cv(seed),
+                cv,
             )
             cv_results.append(row)
             key = (row["f2_mean"], row["recall_mean"], -float(alpha))
@@ -240,12 +277,12 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
                 best_nb_key = key
                 best_alpha = float(alpha)
 
-        calibrated = _calibrate(make_logreg(best_C, seed), texts, y, seed)
+        calibrated = _calibrate(make_logreg(best_C, seed), texts, y, cv)
         explain_estimator = calibrated.calibrated_classifiers_[0].estimator
         comparisons = {
             "keyword_rules": KeywordRuleClassifier().fit(texts, y),
-            "tfidf_linear_svc": _calibrate(make_svm(best_svm_C, seed), texts, y, seed),
-            "tfidf_multinomial_nb": _calibrate(make_nb(best_alpha), texts, y, seed),
+            "tfidf_linear_svc": _calibrate(make_svm(best_svm_C, seed), texts, y, cv),
+            "tfidf_multinomial_nb": _calibrate(make_nb(best_alpha), texts, y, cv),
         }
 
         bundle_partial_threshold_model = calibrated
@@ -268,6 +305,7 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
         )
 
     return ModelBundle(
+        lineage_version=2,
         seed=seed,
         threshold=choice.threshold,
         threshold_policy=choice.policy,
@@ -287,6 +325,10 @@ def train(train_df, val_df, seed: int = 42) -> ModelBundle:
         comparison_thresholds=comparison_thresholds,
         train_ids=tuple(sorted(str(value) for value in train_df["id"])),
         validation_ids=tuple(sorted(str(value) for value in val_df["id"])),
+        train_template_families=tuple(sorted(set(train_df["template_family"].astype(str)))),
+        validation_template_families=tuple(sorted(set(val_df["template_family"].astype(str)))),
+        train_content_fingerprints=tuple(sorted(set(content_fingerprints(train_df)))),
+        validation_content_fingerprints=tuple(sorted(set(content_fingerprints(val_df)))),
     )
 
 
