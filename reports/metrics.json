@@ -3,24 +3,24 @@
   "fitted_on": "train",
   "threshold_selected_on": "validation",
   "test_used_for_tuning": false,
-  "threshold_policy": "max_recall_at_precision_0.70",
-  "threshold_val_precision": 1.0,
+  "threshold_policy": "max_f2_fallback",
+  "threshold_val_precision": 0.6075949367088608,
   "threshold_val_recall": 1.0,
-  "threshold_val_f2": 1.0,
+  "threshold_val_f2": 0.8856088560885609,
   "suspicious_policy": "max_f1_then_recall",
   "best_C": 0.25,
   "best_svm_C": 0.5,
   "best_nb_alpha": 0.1,
-  "n_train": 182,
-  "n_val": 61,
-  "n_test": 61,
+  "n_train": 192,
+  "n_val": 80,
+  "n_test": 32,
   "cv_train": [
     {
       "model": "keyword_rules",
-      "f2_mean": 0.9676264912415921,
-      "f2_std": 0.014235970409240488,
-      "precision_mean": 0.8593593073593073,
-      "precision_std": 0.0529748054862313,
+      "f2_mean": 0.9795262189799876,
+      "f2_std": 0.006551873589395758,
+      "precision_mean": 0.906060606060606,
+      "precision_std": 0.02810854213116522,
       "recall_mean": 1.0,
       "recall_std": 0.0
     },
@@ -108,237 +108,221 @@
   ],
   "held_out": {
     "tfidf_logreg": {
-      "threshold": 0.5,
-      "precision_action_needed": 1.0,
+      "threshold": 0.07,
+      "precision_action_needed": 0.8,
       "recall_action_needed": 1.0,
-      "f1_action_needed": 1.0,
-      "f2_action_needed": 1.0,
-      "support_action_needed": 33,
+      "f1_action_needed": 0.8888888888888888,
+      "f2_action_needed": 0.9523809523809523,
+      "support_action_needed": 16,
       "precision_informational": 1.0,
-      "recall_informational": 1.0,
-      "f1_informational": 1.0,
-      "support_informational": 28,
+      "recall_informational": 0.75,
+      "f1_informational": 0.8571428571428571,
+      "support_informational": 16,
       "confusion_matrix_labels": [
         "ACTION_NEEDED",
         "INFORMATIONAL"
       ],
       "confusion_matrix": [
         [
-          33,
+          16,
           0
         ],
         [
-          0,
-          28
+          4,
+          12
         ]
       ],
-      "brier": 9.387074619922335e-05,
-      "ece_10": 0.006023511207488339
+      "brier": 0.02766095781206577,
+      "ece_10": 0.11516080004117986
     },
     "comparisons": {
       "keyword_rules": {
         "threshold": 0.5,
-        "precision_action_needed": 0.825,
+        "precision_action_needed": 0.5,
         "recall_action_needed": 1.0,
-        "f1_action_needed": 0.9041095890410958,
-        "f2_action_needed": 0.9593023255813954,
-        "support_action_needed": 33,
+        "f1_action_needed": 0.6666666666666666,
+        "f2_action_needed": 0.8333333333333334,
+        "support_action_needed": 16,
+        "precision_informational": 0.0,
+        "recall_informational": 0.0,
+        "f1_informational": 0.0,
+        "support_informational": 16,
+        "confusion_matrix_labels": [
+          "ACTION_NEEDED",
+          "INFORMATIONAL"
+        ],
+        "confusion_matrix": [
+          [
+            16,
+            0
+          ],
+          [
+            16,
+            0
+          ]
+        ],
+        "brier": 0.24961504650185123,
+        "ece_10": 0.09042171687611383
+      },
+      "tfidf_linear_svc": {
+        "threshold": 0.13,
+        "precision_action_needed": 0.8421052631578947,
+        "recall_action_needed": 1.0,
+        "f1_action_needed": 0.9142857142857143,
+        "f2_action_needed": 0.963855421686747,
+        "support_action_needed": 16,
+        "precision_informational": 1.0,
+        "recall_informational": 0.8125,
+        "f1_informational": 0.896551724137931,
+        "support_informational": 16,
+        "confusion_matrix_labels": [
+          "ACTION_NEEDED",
+          "INFORMATIONAL"
+        ],
+        "confusion_matrix": [
+          [
+            16,
+            0
+          ],
+          [
+            3,
+            13
+          ]
+        ],
+        "brier": 0.03675004514000356,
+        "ece_10": 0.1460875827849132
+      },
+      "tfidf_multinomial_nb": {
+        "threshold": 0.08,
+        "precision_action_needed": 1.0,
+        "recall_action_needed": 1.0,
+        "f1_action_needed": 1.0,
+        "f2_action_needed": 1.0,
+        "support_action_needed": 16,
+        "precision_informational": 1.0,
+        "recall_informational": 1.0,
+        "f1_informational": 1.0,
+        "support_informational": 16,
+        "confusion_matrix_labels": [
+          "ACTION_NEEDED",
+          "INFORMATIONAL"
+        ],
+        "confusion_matrix": [
+          [
+            16,
+            0
+          ],
+          [
+            0,
+            16
+          ]
+        ],
+        "brier": 0.05059377425273872,
+        "ece_10": 0.07840476991397384
+      },
+      "tfidf_logreg": {
+        "threshold": 0.07,
+        "precision_action_needed": 0.8,
+        "recall_action_needed": 1.0,
+        "f1_action_needed": 0.8888888888888888,
+        "f2_action_needed": 0.9523809523809523,
+        "support_action_needed": 16,
         "precision_informational": 1.0,
         "recall_informational": 0.75,
         "f1_informational": 0.8571428571428571,
-        "support_informational": 28,
+        "support_informational": 16,
         "confusion_matrix_labels": [
           "ACTION_NEEDED",
           "INFORMATIONAL"
         ],
         "confusion_matrix": [
           [
-            33,
+            16,
             0
           ],
           [
-            7,
-            21
+            4,
+            12
           ]
         ],
-        "brier": 0.07571244237931007,
-        "ece_10": 0.0801333384784125
-      },
-      "tfidf_linear_svc": {
-        "threshold": 0.5,
-        "precision_action_needed": 1.0,
-        "recall_action_needed": 1.0,
-        "f1_action_needed": 1.0,
-        "f2_action_needed": 1.0,
-        "support_action_needed": 33,
-        "precision_informational": 1.0,
-        "recall_informational": 1.0,
-        "f1_informational": 1.0,
-        "support_informational": 28,
-        "confusion_matrix_labels": [
-          "ACTION_NEEDED",
-          "INFORMATIONAL"
-        ],
-        "confusion_matrix": [
-          [
-            33,
-            0
-          ],
-          [
-            0,
-            28
-          ]
-        ],
-        "brier": 9.431592869438337e-05,
-        "ece_10": 0.007869714058470981
-      },
-      "tfidf_multinomial_nb": {
-        "threshold": 0.5,
-        "precision_action_needed": 1.0,
-        "recall_action_needed": 1.0,
-        "f1_action_needed": 1.0,
-        "f2_action_needed": 1.0,
-        "support_action_needed": 33,
-        "precision_informational": 1.0,
-        "recall_informational": 1.0,
-        "f1_informational": 1.0,
-        "support_informational": 28,
-        "confusion_matrix_labels": [
-          "ACTION_NEEDED",
-          "INFORMATIONAL"
-        ],
-        "confusion_matrix": [
-          [
-            33,
-            0
-          ],
-          [
-            0,
-            28
-          ]
-        ],
-        "brier": 0.00010010783138212613,
-        "ece_10": 0.009956328105954147
-      },
-      "tfidf_logreg": {
-        "threshold": 0.5,
-        "precision_action_needed": 1.0,
-        "recall_action_needed": 1.0,
-        "f1_action_needed": 1.0,
-        "f2_action_needed": 1.0,
-        "support_action_needed": 33,
-        "precision_informational": 1.0,
-        "recall_informational": 1.0,
-        "f1_informational": 1.0,
-        "support_informational": 28,
-        "confusion_matrix_labels": [
-          "ACTION_NEEDED",
-          "INFORMATIONAL"
-        ],
-        "confusion_matrix": [
-          [
-            33,
-            0
-          ],
-          [
-            0,
-            28
-          ]
-        ],
-        "brier": 9.387074619922335e-05,
-        "ece_10": 0.006023511207488339
+        "brier": 0.02766095781206577,
+        "ece_10": 0.11516080004117986
       }
     },
     "suspicious": {
-      "threshold": 1.5,
-      "precision": 0.5833333333333334,
-      "recall": 1.0,
-      "f1": 0.7368421052631579,
-      "support_suspicious": 7,
-      "support_benign": 54
+      "threshold": 3.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support_suspicious": 16,
+      "support_benign": 16
     }
   },
-  "error_analysis_mistakes": [],
-  "suspicious_false_alarms": [
+  "error_analysis_mistakes": [
     {
-      "id": "vams-0148",
-      "subject": "Please verify your mailing address",
-      "notice_type": "address_verification",
-      "hard_case": "none",
-      "suspicious": 0,
-      "y_true": "ACTION_NEEDED",
-      "y_pred": "ACTION_NEEDED",
-      "triage_label": "SUSPICIOUS",
-      "p_action_needed": 0.997,
-      "class_correct": 1,
-      "suspicious_detected": 1,
-      "top_terms": "please (+0.019); address (+0.019); than (+0.018); due (+0.013); 2026 (+0.010); later than (+0.009); april (+0.008); the address (+0.008)",
-      "rule_hits": "deadline_date=April 9, 2026; keyword_due=due",
-      "notes": "Benign mail matched a suspicious rule."
-    },
-    {
-      "id": "vams-0152",
-      "subject": "Address verification needed before the next payment",
-      "notice_type": "address_verification",
-      "hard_case": "none",
-      "suspicious": 0,
-      "y_true": "ACTION_NEEDED",
-      "y_pred": "ACTION_NEEDED",
-      "triage_label": "SUSPICIOUS",
-      "p_action_needed": 0.9946,
-      "class_correct": 1,
-      "suspicious_detected": 1,
-      "top_terms": "address (+0.024); before the (+0.021); before (+0.020); by (+0.018); account (+0.011); 2026 (+0.010); include (+0.009); returned (+0.009)",
-      "rule_hits": "deadline_date=March 13, 2026; keyword_action_required=Action required",
-      "notes": "Benign mail matched a suspicious rule."
-    },
-    {
-      "id": "vams-0233",
-      "subject": "A short questionnaire on the demonstration visit",
-      "notice_type": "survey",
-      "hard_case": "none",
-      "suspicious": 0,
+      "id": "vams-0289",
+      "subject": "Your statement is ready, use the new login link",
+      "notice_type": "phishing_lure",
+      "hard_case": "phishing",
+      "suspicious": 1,
       "y_true": "INFORMATIONAL",
-      "y_pred": "INFORMATIONAL",
-      "triage_label": "SUSPICIOUS",
-      "p_action_needed": 0.0189,
-      "class_correct": 1,
-      "suspicious_detected": 1,
-      "top_terms": "survey (-0.021); feedback (-0.018); for your (-0.014); it does (-0.014); your information (-0.013); information (-0.013); optional (-0.011); your (-0.009)",
-      "rule_hits": "keyword_action_required=action required",
-      "notes": "Benign mail matched a suspicious rule."
-    },
-    {
-      "id": "vams-0237",
-      "subject": "Tell us about the example waiting room, if you want",
-      "notice_type": "survey",
-      "hard_case": "none",
-      "suspicious": 0,
-      "y_true": "INFORMATIONAL",
-      "y_pred": "INFORMATIONAL",
-      "triage_label": "SUSPICIOUS",
-      "p_action_needed": 0.0082,
-      "class_correct": 1,
-      "suspicious_detected": 1,
-      "top_terms": "it does (-0.026); no response (-0.013); no (-0.012); answer (-0.011); it (-0.010); about (-0.010); optional (-0.010); is needed (-0.010)",
+      "y_pred": "ACTION_NEEDED",
+      "triage_label": "ACTION_NEEDED",
+      "p_action_needed": 0.0977,
+      "class_correct": 0,
+      "suspicious_detected": 0,
+      "top_terms": "payment (+0.013); be (+0.010); should (+0.010); should be (+0.010); the new (+0.009); treated (+0.008); treated as (+0.008); is the (+0.008)",
       "rule_hits": "",
-      "notes": "Benign mail matched a suspicious rule."
+      "notes": "Suspicious cues were below the validation cutoff."
     },
     {
-      "id": "vams-0246",
-      "subject": "Payment posted on the example life policy",
-      "notice_type": "premium_receipt",
-      "hard_case": "none",
-      "suspicious": 0,
+      "id": "vams-0299",
+      "subject": "A document is waiting behind a look-alike login",
+      "notice_type": "phishing_lure",
+      "hard_case": "phishing",
+      "suspicious": 1,
       "y_true": "INFORMATIONAL",
-      "y_pred": "INFORMATIONAL",
-      "triage_label": "SUSPICIOUS",
-      "p_action_needed": 0.0059,
-      "class_correct": 1,
-      "suspicious_detected": 1,
-      "top_terms": "receipt (-0.027); no (-0.021); no action (-0.015); posted (-0.014); applied (-0.012); keep (-0.012); posting (-0.010); because of (-0.010)",
-      "rule_hits": "dollar_amount=$118.40; keyword_due=due; keyword_action_required=action required",
-      "notes": "Benign mail matched a suspicious rule."
+      "y_pred": "ACTION_NEEDED",
+      "triage_label": "ACTION_NEEDED",
+      "p_action_needed": 0.0704,
+      "class_correct": 0,
+      "suspicious_detected": 0,
+      "top_terms": "payment (+0.014); be (+0.011); so (+0.011); can (+0.011); should (+0.011); should be (+0.010); treated as (+0.008); treated (+0.008)",
+      "rule_hits": "",
+      "notes": "Suspicious cues were below the validation cutoff."
+    },
+    {
+      "id": "vams-0302",
+      "subject": "Statement notice with an extra login step",
+      "notice_type": "phishing_lure",
+      "hard_case": "phishing",
+      "suspicious": 1,
+      "y_true": "INFORMATIONAL",
+      "y_pred": "ACTION_NEEDED",
+      "triage_label": "ACTION_NEEDED",
+      "p_action_needed": 0.1704,
+      "class_correct": 0,
+      "suspicious_detected": 0,
+      "top_terms": "be (+0.019); mail (+0.017); payment (+0.014); can (+0.011); should (+0.011); extra (+0.010); should be (+0.010); below (+0.010)",
+      "rule_hits": "",
+      "notes": "Suspicious cues were below the validation cutoff."
+    },
+    {
+      "id": "vams-0303",
+      "subject": "Statement notice with an extra login step",
+      "notice_type": "phishing_lure",
+      "hard_case": "phishing",
+      "suspicious": 1,
+      "y_true": "INFORMATIONAL",
+      "y_pred": "ACTION_NEEDED",
+      "triage_label": "ACTION_NEEDED",
+      "p_action_needed": 0.0843,
+      "class_correct": 0,
+      "suspicious_detected": 0,
+      "top_terms": "mail (+0.017); verify (+0.011); so (+0.011); can (+0.011); extra (+0.011); below (+0.011); without (+0.008); mail the (+0.007)",
+      "rule_hits": "",
+      "notes": "Suspicious cues were below the validation cutoff."
     }
-  ]
+  ],
+  "suspicious_false_alarms": []
 }

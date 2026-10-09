@@ -51,6 +51,7 @@ def test_training_is_deterministic(frame, trained_bundle):
     assert bundle.seed == 42
     assert bundle.threshold_selected_on == "validation"
     assert bundle.fitted_on == "train"
+    assert set(bundle.train_ids).isdisjoint(bundle.validation_ids)
 
 
 def test_train_refuses_to_mix_in_test_rows(frame):

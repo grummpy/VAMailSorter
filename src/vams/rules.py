@@ -72,7 +72,11 @@ DEADLINE_RE = re.compile(
     rf"\b(?:{_MONTHS})\s+\d{{1,2}},\s+\d{{4}}\b|\b\d{{1,2}}/\d{{1,2}}/\d{{4}}\b",
     re.IGNORECASE,
 )
-DOLLAR_RE = re.compile(r"\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?")
+# Accept both ungrouped and correctly grouped whole-dollar amounts.  Do not
+# accept a prefix of a malformed amount (for example "$12,34" as "$12").
+DOLLAR_RE = re.compile(
+    r"\$(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{2})?(?!\d|,\d|\.\d)"
+)
 KEYWORD_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("keyword_debt", re.compile(r"\b(?:debt|overpayment)\b", re.IGNORECASE)),
     ("keyword_due", re.compile(r"\b(?:due|overdue)\b", re.IGNORECASE)),

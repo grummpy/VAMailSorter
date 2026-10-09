@@ -63,7 +63,22 @@ def write_csv(rows: list[dict], path: Path) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(rows)
+        # Spreadsheet programs may evaluate leading formula characters.  CSV is
+        # an export format, not an instruction channel; preserve the evidence
+        # while quoting dangerous text fields with a visible apostrophe.
+        writer.writerows(
+            {
+                key: _csv_safe(value) if key not in {"p_action_needed", "confidence", "threshold", "suspicious"} else value
+                for key, value in row.items()
+            }
+            for row in rows
+        )
+
+
+def _csv_safe(value: object) -> object:
+    if isinstance(value, str) and value.lstrip().startswith(("=", "+", "-", "@")):
+        return "'" + value
+    return value
 
 
 def _badge(label: str) -> str:

@@ -41,3 +41,17 @@ def test_no_duplicate_or_near_duplicate_text_across_splits():
     assert id_sets["train"].isdisjoint(id_sets["val"])
     assert id_sets["train"].isdisjoint(id_sets["test"])
     assert id_sets["val"].isdisjoint(id_sets["test"])
+
+
+def test_template_families_are_assigned_to_exactly_one_split():
+    frame = load_emails(ROOT / "data" / "synthetic" / "emails.csv")
+    assert "template_family" in frame
+    split_counts = frame.groupby("template_family")["split"].nunique()
+    assert (split_counts == 1).all()
+    families = {
+        split: set(frame.loc[frame["split"] == split, "template_family"])
+        for split in ("train", "val", "test")
+    }
+    assert families["train"].isdisjoint(families["val"])
+    assert families["train"].isdisjoint(families["test"])
+    assert families["val"].isdisjoint(families["test"])

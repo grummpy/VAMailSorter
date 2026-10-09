@@ -36,7 +36,7 @@ Regenerate the same file with:
 python scripts/build_dataset.py
 ```
 
-Splits are stratified 60/20/20 on the label and the suspicious flag, seed 42: **182 train / 61 validation / 61 test**. Cross-validation and logistic `C` use train. The decision threshold and the suspicious cutoff use validation. The test split is not used to choose either one.
+Template families are assigned to train, validation, or test before their synthetic text is rendered, so no template paragraphs or family identities cross partitions. This produces **192 train / 80 validation / 32 test** rows; it is not a row-stratified 60/20/20 split. Cross-validation and logistic `C` use train. The decision threshold and the suspicious cutoff use validation. The test split is not used to choose either one.
 
 ## Train
 
@@ -84,27 +84,27 @@ The only scope requested is `https://www.googleapis.com/auth/gmail.readonly`. Th
 
 ## Held-out metrics
 
-These numbers are from `vams evaluate` on the 61-message test split (33 ACTION_NEEDED, 28 INFORMATIONAL) after `vams train` with seed 42. They are also in `reports/metrics.json` and the [model card](docs/model_card.md).
+These numbers are from `vams evaluate` on the corrected 32-message synthetic test split (16 ACTION_NEEDED, 16 INFORMATIONAL) after `vams train` with seed 42. They are also in `reports/metrics.json` and the [model card](docs/model_card.md). They measure only this deliberately synthetic corpus.
 
 Deployed model, threshold 0.50:
 
 | Class | Precision | Recall | F1 | Support |
 | --- | ---: | ---: | ---: | ---: |
-| ACTION_NEEDED | 1.000 | 1.000 | 1.000 | 33 |
-| INFORMATIONAL | 1.000 | 1.000 | 1.000 | 28 |
+| ACTION_NEEDED | 0.800 | 1.000 | 0.889 | 16 |
+| INFORMATIONAL | 1.000 | 0.750 | 0.857 | 16 |
 
-- F2 (ACTION_NEEDED): 1.000
-- Brier score: 0.000094
-- Expected calibration error, 10 equal-width bins: 0.006
-- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): `[[33, 0], [0, 28]]`
+- F2 (ACTION_NEEDED): 0.952
+- Brier score: 0.027661
+- Expected calibration error, 10 equal-width bins: 0.115
+- Confusion matrix (rows true, columns predicted; order ACTION_NEEDED, INFORMATIONAL): `[[16, 0], [4, 12]]`
 
 ![Held-out confusion matrix](reports/confusion_matrix.png)
 
 ![Held-out reliability diagram](reports/calibration_curve.png)
 
-The keyword baseline, at its own validation threshold of 0.50, reaches ACTION_NEEDED precision **0.825**, recall **1.000**, F2 **0.959**. Informational recall is **0.750**: the rules still mark some newsletters and status notes as action. Calibrated linear SVM (`C=0.5`) and calibrated naive Bayes (`alpha=0.1`) match the logistic model on this split (F2 1.000). Logistic regression stays the deployed model because its coefficients are the explanation.
+The keyword baseline, at its own validation threshold of 0.50, reaches ACTION_NEEDED precision **0.500**, recall **1.000**, F2 **0.833**. Informational recall is **0.000**: the rules mark every held-out informational row as action. Logistic regression remains the deployed model because its coefficients are the explanation.
 
-Suspicious override (validation cutoff **1.5**): precision **0.583**, recall **1.000**, F1 **0.737** (7 suspicious messages in the test split). Recall is complete. Precision is not: five benign letters mention the word "password" inside a sentence that says the office will not ask for one, and the cue list still matches. Those rows are in `reports/error_analysis.csv`. There were no class mismatches.
+Suspicious override (validation cutoff **3.5**): precision **0.000**, recall **0.000**, F1 **0.000** (16 suspicious messages in the test split). The isolated template-family split exposes that these fixed cues do not generalize to the held-out phishing template; this is not a real-world phishing measurement.
 
 Training-split cross-validation (default 0.5 cutoff, not the validation threshold) is in `reports/cv_results.csv`. Keyword F2 was 0.968 ± 0.014. The TF-IDF models were at F2 1.0 on every fold of this corpus.
 
@@ -123,12 +123,12 @@ ruff check src tests scripts
 pytest
 ```
 
-The suite covers data integrity, train/test leakage (exact duplicates and word-trigram Jaccard above 0.80 across splits), deterministic training at seed 42, explanation output, and the CLI. This environment's last `pytest` run was **19 passed**.
+The suite covers data integrity, template-family and row-identity leakage, deterministic training at seed 42, amount parsing, CSV formula safety, explanation output, and the CLI. This environment's last `pytest` run was **22 passed**.
 
 ## Limitations
 
-- Every public email is synthetic and written so the two classes use different language. Perfect held-out accuracy is a fact about this file, not a measurement on real VA, DFAS, or VGLI mail.
-- The test split has 61 messages. One letter would move the rates. The reliability diagram has almost no probability mass in the middle, so it barely stresses calibration.
+- Every public email is synthetic and template-family isolation is still not a measurement on real VA, DFAS, or VGLI mail. It does not demonstrate fraud detection, authentication, or provider integration.
+- The test split has 32 messages. One letter moves the rates substantially, and the reliability diagram barely stresses calibration.
 - The suspicious rules are a fixed cue list. They miss a phish that avoids those words, and they fire on a denial such as "we will not ask for a password."
 - Explanations are linear term weights. They do not parse negation scope or the layout of a scanned letter.
 - Optional Gmail access is read-only and is not part of the metrics above.

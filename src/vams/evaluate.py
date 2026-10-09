@@ -236,7 +236,7 @@ This is not legal advice, benefits advice, or an official VA, DFAS, Prudential, 
 - Public corpus: synthetic subjects and bodies only (`data/synthetic/emails.csv`)
 - Rows: {metrics["n_train"]} train / {metrics["n_val"]} validation / {n_test} test
 - Labels: ACTION_NEEDED and INFORMATIONAL, plus a SUSPICIOUS flag that overrides the class at triage time
-- Split: stratified 60/20/20 on label and suspicious flag, seed {metrics["seed"]}
+- Split: whole synthetic template families are assigned before rendering; families do not cross partitions (seed {metrics["seed"]})
 - The test split is not used to choose C, the class threshold, or the suspicious cutoff
 - Labeling rules: `docs/labeling_guide.md`
 
@@ -326,8 +326,10 @@ def evaluate(
 ) -> dict:
     if "split" in test_df.columns and not (test_df["split"] == "test").all():
         raise ValueError("evaluate expects the held-out test split only")
-    if set(test_df["id"]) & set(getattr(bundle, "train_ids", ())):
-        raise ValueError("test ids overlap stored train ids")
+    known_ids = set(getattr(bundle, "train_ids", ())) | set(getattr(bundle, "validation_ids", ()))
+    overlap = set(test_df["id"]) & known_ids
+    if overlap:
+        raise ValueError(f"test ids overlap stored training identities: {sorted(overlap)[:5]}")
 
     out_dir.mkdir(parents=True, exist_ok=True)
     texts = as_text(test_df)
