@@ -22,7 +22,7 @@ from sklearn.metrics import (
     precision_recall_fscore_support,
 )
 
-from vams.data import as_text, decode_label, encode_labels
+from vams.data import as_text, content_fingerprints, decode_label, encode_labels
 from vams.explain import explain_message, format_hits, format_terms
 from vams.metrics import expected_calibration_error
 from vams.rules import suspicious_score
@@ -242,7 +242,7 @@ This is not legal advice, benefits advice, or an official VA, DFAS, Prudential, 
 
 ## Evaluation procedure
 
-1. Stratified 5-fold CV on the training split compares the keyword baseline, logistic regression, linear SVM, and multinomial naive Bayes. CV predictions use each model's default decision rule (probability 0.5, or the SVM margin).
+1. Family-aware stratified 5-fold CV on the training split compares the keyword baseline, logistic regression, linear SVM, and multinomial naive Bayes. A synthetic template family is kept wholly on one side of every fold. CV predictions use each model's default decision rule (probability 0.5, or the SVM margin).
 2. The deployed model is logistic regression, because its coefficients are the explanation. Its C is the CV winner inside the logistic grid only.
 3. `CalibratedClassifierCV` fits the sigmoid map from out-of-fold training scores.
 4. The class threshold and the suspicious cutoff are chosen on validation only.
@@ -326,10 +326,33 @@ def evaluate(
 ) -> dict:
     if "split" in test_df.columns and not (test_df["split"] == "test").all():
         raise ValueError("evaluate expects the held-out test split only")
-    known_ids = set(getattr(bundle, "train_ids", ())) | set(getattr(bundle, "validation_ids", ()))
+    lineage_attributes = (
+        "train_ids",
+        "validation_ids",
+        "train_template_families",
+        "validation_template_families",
+        "train_content_fingerprints",
+        "validation_content_fingerprints",
+    )
+    if getattr(bundle, "lineage_version", 0) < 2 or any(
+        not hasattr(bundle, attribute) for attribute in lineage_attributes
+    ):
+        raise ValueError("bundle lacks required split lineage; retrain before held-out evaluation")
+    known_ids = set(bundle.train_ids) | set(bundle.validation_ids)
     overlap = set(test_df["id"]) & known_ids
     if overlap:
         raise ValueError(f"test ids overlap stored training identities: {sorted(overlap)[:5]}")
+    if "template_family" not in test_df.columns:
+        raise ValueError("evaluate needs template_family lineage")
+    known_families = set(bundle.train_template_families) | set(bundle.validation_template_families)
+    family_overlap = set(test_df["template_family"].astype(str)) & known_families
+    if family_overlap:
+        raise ValueError(
+            f"test template families overlap stored training lineage: {sorted(family_overlap)[:5]}"
+        )
+    known_content = set(bundle.train_content_fingerprints) | set(bundle.validation_content_fingerprints)
+    if set(content_fingerprints(test_df)) & known_content:
+        raise ValueError("test content overlaps stored training lineage")
 
     out_dir.mkdir(parents=True, exist_ok=True)
     texts = as_text(test_df)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from hashlib import sha256
 from pathlib import Path
 
 import pandas as pd
@@ -35,6 +36,13 @@ def as_text(frame: pd.DataFrame) -> list[str]:
     subjects = frame["subject"].fillna("").astype(str)
     bodies = frame["body"].fillna("").astype(str)
     return [document_text(s, b) for s, b in zip(subjects, bodies, strict=True)]
+
+
+def content_fingerprints(frame: pd.DataFrame) -> tuple[str, ...]:
+    """Stable exact-content identities for split-lineage guards."""
+    return tuple(
+        sha256(normalize_text(text).encode("utf-8")).hexdigest() for text in as_text(frame)
+    )
 
 
 def load_emails(path: str | Path) -> pd.DataFrame:

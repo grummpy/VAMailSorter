@@ -3,6 +3,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 from vams.mailio import load_path
 from vams.models import save_bundle
 from vams.report import write_csv
@@ -126,3 +128,33 @@ def test_evaluate_does_not_move_the_threshold(trained_bundle, tmp_path: Path):
     assert (tmp_path / "confusion_matrix.png").exists()
     assert (tmp_path / "calibration_curve.png").exists()
     assert "Held-out test metrics" in (tmp_path / "model_card.md").read_text(encoding="utf-8")
+
+
+def test_evaluate_rejects_stored_lineage_overlap_and_legacy_bundle(trained_bundle, tmp_path: Path):
+    from vams.data import load_emails, require_split
+    from vams.evaluate import evaluate
+
+    frame = load_emails(ROOT / "data" / "synthetic" / "emails.csv")
+    test = require_split(frame, "test")
+    kwargs = {
+        "out_dir": tmp_path,
+        "model_card_path": tmp_path / "card.md",
+        "n_train": 192,
+        "n_val": 80,
+    }
+    by_id = test.copy()
+    by_id.loc[by_id.index[0], "id"] = trained_bundle.train_ids[0]
+    with pytest.raises(ValueError, match="ids overlap"):
+        evaluate(trained_bundle, by_id, **kwargs)
+    by_family = test.copy()
+    by_family.loc[by_family.index[0], "template_family"] = trained_bundle.train_template_families[0]
+    with pytest.raises(ValueError, match="template families overlap"):
+        evaluate(trained_bundle, by_family, **kwargs)
+    by_content = test.copy()
+    source = require_split(frame, "train").iloc[0]
+    by_content.loc[by_content.index[0], ["subject", "body"]] = [source.subject, source.body]
+    with pytest.raises(ValueError, match="content overlaps"):
+        evaluate(trained_bundle, by_content, **kwargs)
+    trained_bundle.lineage_version = 1
+    with pytest.raises(ValueError, match="lacks required split lineage"):
+        evaluate(trained_bundle, test, **kwargs)
