@@ -16,7 +16,25 @@ DISCLAIMER = (
 )
 
 
+def _threshold_context(bundle) -> tuple[str, str]:
+    """Return exported threshold metadata and an accurate reviewer-facing note."""
+    policy = str(bundle.threshold_policy)
+    selected_on = str(bundle.threshold_selected_on)
+    if policy == "max_f2_fallback":
+        note = (
+            "The ACTION_NEEDED threshold used the synthetic validation fallback: "
+            "no candidate met the configured precision floor, so validation F2 selected it."
+        )
+    else:
+        note = (
+            "The ACTION_NEEDED threshold was selected on "
+            f"{selected_on} with policy {policy}."
+        )
+    return policy, note
+
+
 def classify_messages(bundle, messages: list[dict]) -> list[dict]:
+    threshold_policy, threshold_note = _threshold_context(bundle)
     rows = []
     for message in messages:
         text = f"{message.get('subject', '')}\n\n{message.get('body', '')}".strip()
@@ -33,6 +51,9 @@ def classify_messages(bundle, messages: list[dict]) -> list[dict]:
                 "p_action_needed": f"{explained['p_action_needed']:.4f}",
                 "confidence": f"{explained['confidence']:.4f}",
                 "threshold": f"{explained['threshold']:.2f}",
+                "threshold_policy": threshold_policy,
+                "threshold_selected_on": str(bundle.threshold_selected_on),
+                "threshold_note": threshold_note,
                 "suspicious": int(explained["suspicious"]),
                 "suspicious_cues": "; ".join(explained["suspicious_cues"]),
                 "top_terms": format_terms(explained["top_terms"]),
@@ -55,6 +76,9 @@ def write_csv(rows: list[dict], path: Path) -> None:
         "p_action_needed",
         "confidence",
         "threshold",
+        "threshold_policy",
+        "threshold_selected_on",
+        "threshold_note",
         "suspicious",
         "suspicious_cues",
         "top_terms",
@@ -112,6 +136,7 @@ def write_html(rows: list[dict], path: Path) -> None:
             f"<td>{html.escape(row['rule_hits'])}</td>"
             "</tr>"
         )
+    threshold_note = rows[0].get("threshold_note", "") if rows else ""
     document = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,6 +159,7 @@ th {{ font-family: "Segoe UI", sans-serif; background: #10243f; color: white; }}
 <body>
 <h1>VA Mail Sorter</h1>
 <p class="disclaimer">{html.escape(DISCLAIMER)}</p>
+<p class="threshold-note">{html.escape(threshold_note)}</p>
 <p>{len(rows)} message{"s" if len(rows) != 1 else ""}.</p>
 <table>
 <thead>
