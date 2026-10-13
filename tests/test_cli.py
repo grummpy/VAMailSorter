@@ -68,6 +68,41 @@ def test_classify_writes_csv_and_html(trained_bundle, tmp_path: Path):
     assert "SUSPICIOUS" in html
 
 
+def test_reports_disclose_the_synthetic_validation_fallback(trained_bundle, tmp_path: Path):
+    model = tmp_path / "model.joblib"
+    save_bundle(trained_bundle, model)
+    csv_path = tmp_path / "report.csv"
+    html_path = tmp_path / "report.html"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "vams",
+            "classify",
+            str(FIXTURES / "action.eml"),
+            "--model",
+            str(model),
+            "--csv",
+            str(csv_path),
+            "--html",
+            str(html_path),
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0, completed.stderr
+    with csv_path.open(encoding="utf-8") as handle:
+        row = next(csv.DictReader(handle))
+    assert row["threshold_policy"] == "max_f2_fallback"
+    assert row["threshold_selected_on"] == "validation"
+    assert "synthetic validation fallback" in row["threshold_note"]
+    html = html_path.read_text(encoding="utf-8")
+    assert "synthetic validation fallback" in html
+    assert "precision floor" in html
+
+
 def test_classify_requires_a_model(tmp_path: Path):
     completed = subprocess.run(
         [
